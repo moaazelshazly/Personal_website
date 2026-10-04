@@ -39,7 +39,7 @@ export interface TimelineItem {
 
 export const PORTFOLIO_DATA = {
   personal: {
-    name: "Moaaz ElShazly",
+    name: "Moaaz Elshazly",
     role: "Frontend Engineer & UI/UX Designer",
     statusBadge: "Available for full-time & select contracts",
     shortBio: "I design and build high-performance web applications with precision engineering, clean design systems, and obsessive attention to detail.",
