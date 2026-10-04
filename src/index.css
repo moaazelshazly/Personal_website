@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Main Index CSS Entry Point
+   ========================================================================== */
+
+@import './styles/tokens.css';
+@import './styles/portfolio.css';
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

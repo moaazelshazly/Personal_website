@@ -1,0 +1,91 @@
+/* ==========================================================================
+   Design Tokens - Sourced from Linear Design Language (DESIGN.md)
+   ========================================================================== */
+
+:root {
+  /* Surfaces & Backgrounds */
+  --color-bg-primary: #08090a;
+  --color-bg-level-0: #08090a;
+  --color-bg-level-1: #0f1011;
+  --color-bg-level-2: #141516;
+  --color-bg-level-3: #191a1b;
+  --color-bg-panel: #0f1011;
+  --color-bg-secondary: #1c1c1f;
+  --color-bg-tertiary: #232326;
+  --color-bg-quaternary: #28282c;
+  --color-bg-translucent: rgba(255, 255, 255, 0.03);
+  --color-bg-translucent-hover: rgba(255, 255, 255, 0.06);
+  --color-bg-translucent-active: rgba(255, 255, 255, 0.09);
+
+  /* Borders & Hairlines */
+  --color-border-primary: #23252a;
+  --color-border-secondary: #34343a;
+  --color-border-tertiary: #3e3e44;
+  --color-border-translucent: rgba(255, 255, 255, 0.06);
+  --color-border-translucent-strong: rgba(255, 255, 255, 0.12);
+  --color-border-translucent-hover: rgba(255, 255, 255, 0.18);
+  --border-hairline: 1px;
+
+  /* Typography Colors */
+  --color-text-primary: #f7f8f8;
+  --color-text-secondary: #d0d6e0;
+  --color-text-tertiary: #8a8f98;
+  --color-text-quaternary: #62666d;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Accent & Interactive */
+  --color-brand-bg: #5e6ad2;
+  --color-brand-text: #ffffff;
+  --color-indigo: #5e6ad2;
+  --color-accent: #7170ff;
+  --color-accent-hover: #828fff;
+  --color-accent-tint: #18182f;
+  --color-link-primary: #828fff;
+  --color-link-hover: #ffffff;
+  --focus-ring-color: #5e69d1;
+
+  /* Status Colors */
+  --color-green: #27a644;
+  --color-green-tint: rgba(39, 166, 68, 0.15);
+  --color-yellow: #f0bf00;
+  --color-yellow-tint: rgba(240, 191, 0, 0.15);
+  --color-red: #eb5757;
+  --color-red-tint: rgba(235, 87, 87, 0.15);
+  --color-teal: #00b8cc;
+
+  /* Header & Navigation */
+  --header-bg: rgba(8, 9, 10, 0.75);
+  --header-border: rgba(255, 255, 255, 0.07);
+  --header-blur: 16px;
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+  /* Border Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows (Subtle, crisp, avoiding generic heavy blur) */
+  --shadow-low: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-medium: 0px 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-high: 0px 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0px 12px 36px -4px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  --shadow-inset-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Transitions */
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --transition-fast: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-medium: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Max Widths */
+  --container-max-width: 1160px;
+  --prose-max-width: 640px;
+}
