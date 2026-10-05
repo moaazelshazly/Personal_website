@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoaderData, NavLink, type LoaderFunctionArgs } from 'react-router';
 import { fetchPortfolioProjects, formatGitHubDate, getLanguageColor } from '../TS/Fetcg';
+import { hydrationController } from '../TS/hydrationController';
 import {
   GithubIcon,
   ExternalLinkIcon,
@@ -15,7 +16,9 @@ import {
 
 export async function projectDetailLoader({ params }: LoaderFunctionArgs) {
   const { projectId } = params;
-  const projects = await fetchPortfolioProjects();
+  const dataPromise = fetchPortfolioProjects().then((projects) => ({ projects }));
+  const { projects } = await hydrationController.coordinateInitialLoad(dataPromise);
+
   const project = projects.find(
     (p) =>
       p.id.toLowerCase() === projectId?.toLowerCase() ||

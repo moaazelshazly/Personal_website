@@ -9,6 +9,7 @@ import { AboutPage, aboutLoader } from './pages/AboutPage';
 import { ContactPage, contactLoader } from './pages/ContactPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { contactAction } from './actions/contactAction';
+import { WelcomeHydrateFallback } from './components/WelcomeHydrateFallback';
 
 export const router = createBrowserRouter(
   [
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(
       path: '/',
       element: <RootLayout />,
       errorElement: <ErrorPage />,
+      HydrateFallback: WelcomeHydrateFallback,
       children: [
         {
           index: true,

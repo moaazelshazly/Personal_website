@@ -4,6 +4,7 @@
 
 @import './styles/tokens.css';
 @import './styles/portfolio.css';
+@import './styles/hydrateFallback.css';
 
 :root {
   color-scheme: dark;

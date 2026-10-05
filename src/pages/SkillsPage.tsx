@@ -2,9 +2,11 @@ import React from 'react';
 import { useLoaderData, Link } from 'react-router';
 import { Skills } from '../components/Skills';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { hydrationController } from '../TS/hydrationController';
 
 export async function skillsLoader() {
-  return { skills: PORTFOLIO_DATA.skills };
+  const dataPromise = Promise.resolve({ skills: PORTFOLIO_DATA.skills });
+  return await hydrationController.coordinateInitialLoad(dataPromise);
 }
 
 export const SkillsPage: React.FC = () => {

@@ -50,7 +50,7 @@ export const PORTFOLIO_DATA = {
     name: "Moaaz Elshazly",
     role: "Frontend Engineer & Software Developer",
     statusBadge: "Available for full-time & select contracts",
-    shortBio: "CS student & frontend developer engineering responsive web applications, interactive tools, and typing benchmark engines with clean design systems.",
+    shortBio: "frontend developer engineering responsive web applications, interactive tools, and typing benchmark engines with clean design systems.",
     location: "Tanta, Egypt / Remote Available",
     email: "mozaelshazly56@gmail.com",
     github: "https://github.com/moaazelshazly",

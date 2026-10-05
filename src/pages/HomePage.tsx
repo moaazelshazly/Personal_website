@@ -3,11 +3,19 @@ import { useLoaderData, Link } from 'react-router';
 import { Hero } from '../components/Hero';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { fetchPortfolioProjects, fetchGitHubProfile } from '../TS/Fetcg';
+import { hydrationController } from '../TS/hydrationController';
 import { ArrowRightIcon, CodeIcon, LayersIcon, BriefcaseIcon, CpuIcon, MailIcon, CheckIcon } from '../components/Icons';
 
 export async function homeLoader() {
-  const projects = await fetchPortfolioProjects();
-  const profile = await fetchGitHubProfile();
+  const dataPromise = (async () => {
+    const [projects, profile] = await Promise.all([
+      fetchPortfolioProjects(),
+      fetchGitHubProfile()
+    ]);
+    return { projects, profile };
+  })();
+
+  const { projects, profile } = await hydrationController.coordinateInitialLoad(dataPromise);
 
   return {
     portfolio: {

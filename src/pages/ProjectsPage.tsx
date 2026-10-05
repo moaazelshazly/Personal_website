@@ -2,10 +2,11 @@ import React from 'react';
 import { useLoaderData, NavLink } from 'react-router';
 import { Projects } from '../components/Projects';
 import { fetchPortfolioProjects } from '../TS/Fetcg';
+import { hydrationController } from '../TS/hydrationController';
 
 export async function projectsLoader() {
-  const projects = await fetchPortfolioProjects();
-  return { projects };
+  const dataPromise = fetchPortfolioProjects().then((projects) => ({ projects }));
+  return await hydrationController.coordinateInitialLoad(dataPromise);
 }
 
 export const ProjectsPage: React.FC = () => {
