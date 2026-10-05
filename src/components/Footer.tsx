@@ -3,6 +3,8 @@ import { NavLink } from 'react-router';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { GithubIcon, LinkedinIcon, ArrowUpRightIcon } from './Icons';
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,10 +21,10 @@ export const Footer: React.FC = () => {
               <span className="footer-name">{PORTFOLIO_DATA.personal.name}</span>
             </div>
             <p className="footer-tagline">
-              Frontend Engineer &amp; UI/UX Designer. Focused on high-performance web systems and design precision.
+              Frontend Engineer &amp; Software Developer. Focused on high-performance web systems and design precision.
             </p>
             <div className="footer-copyright">
-              © {new Date().getFullYear()} {PORTFOLIO_DATA.personal.name}. All rights reserved.
+              © {CURRENT_YEAR} {PORTFOLIO_DATA.personal.name}. All rights reserved.
             </div>
           </div>
 

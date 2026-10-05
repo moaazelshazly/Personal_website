@@ -11,6 +11,14 @@ export interface Project {
   status: string;
   highlights: string[];
   featured?: boolean;
+  // GitHub Live Metadata
+  stars?: number;
+  forks?: number;
+  openIssues?: number;
+  updatedAt?: string;
+  language?: string;
+  defaultBranch?: string;
+  repoFullName?: string;
 }
 
 export interface SkillCategory {
@@ -40,12 +48,15 @@ export interface TimelineItem {
 export const PORTFOLIO_DATA = {
   personal: {
     name: "Moaaz Elshazly",
-    role: "Frontend Engineer & UI/UX Designer",
+    role: "Frontend Engineer & Software Developer",
     statusBadge: "Available for full-time & select contracts",
-    shortBio: "I design and build high-performance web applications with precision engineering, clean design systems, and obsessive attention to detail.",
-    location: "San Francisco, CA / Remote Available",
+    shortBio: "CS student & frontend developer engineering responsive web applications, interactive tools, and typing benchmark engines with clean design systems.",
+    location: "Tanta, Egypt / Remote Available",
     email: "mozaelshazly56@gmail.com",
     github: "https://github.com/moaazelshazly",
+    avatarUrl: "https://avatars.githubusercontent.com/u/181676567?v=4",
+    bio: "new learner also student thank you!!",
+    publicReposCount: 4,
     linkedin: "https://www.linkedin.com/in/moaaz-elshazly-625233358",
     twitter: "https://x.com/moazelshazly55",
     resumeUrl: "#contact",
@@ -58,24 +69,24 @@ export const PORTFOLIO_DATA = {
   },
 
   about: {
-    heading: "Crafting digital experiences with architectural discipline.",
+    heading: "Engineering digital experiences with discipline, clean architecture, and curiosity.",
     paragraphs: [
-      "I am a frontend developer and UI/UX designer focused on building polished, reliable web applications. My work sits at the intersection of design systems and frontend architecture — ensuring that what looks elegant in Figma translates into resilient, accessible code.",
-      "Currently completing my degree in Computer Science while building production-grade web interfaces. I avoid unnecessary dependencies, generic templates, and bloated libraries in favor of clean architecture, semantic HTML, and performant JavaScript/TypeScript.",
-      "Whether developing a complex component library from scratch or optimizing rendering pipelines for real-time dashboards, my objective is always the same: create products that feel fast, predictable, and deeply satisfying to use."
+      "I am a Computer Science student and frontend developer driven by building clean, high-performance web applications. My focus spans modern reactive frontend architecture, interactive web experiences, and accessible design systems.",
+      "I love exploring how things work under the hood — whether that means dissecting JavaScript event loops in browser games, optimizing keystroke telemetry in React applications, or solving complex algorithmic problems with optimal time and space complexity in C++.",
+      "I believe in writing clean, readable, type-safe code that delivers exceptional user experiences with zero unnecessary runtime bloat."
     ],
     focusAreas: [
       {
-        title: "Precision Design Systems",
-        description: "Token-driven component libraries with strict contrast, scalable typography, and zero-drift Figma handoffs."
+        title: "Modern React & TypeScript",
+        description: "Building responsive, predictable interfaces with React 19, strict TypeScript type checking, and modern bundlers like Vite."
       },
       {
-        title: "Frontend Architecture",
-        description: "Type-safe, testable applications built with React 19, modern state machines, and clean separation of concerns."
+        title: "Algorithms & Problem Solving",
+        description: "Rigorous practice with Data Structures & Algorithms (NeetCode 150), asymptotic analysis, and computational efficiency."
       },
       {
-        title: "Performance & Accessibility",
-        description: "Zero unnecessary re-renders, 60fps animations, keyboard navigation, and rigorous adherence to WCAG standards."
+        title: "Clean Design & Accessibility",
+        description: "Token-driven component architectures, responsive layouts, high contrast ratios (WCAG AAA), and smooth micro-interactions."
       }
     ]
   },
@@ -85,119 +96,132 @@ export const PORTFOLIO_DATA = {
       title: "Frontend",
       description: "Core UI engines, reactive frameworks, and browser presentation technologies.",
       skills: [
-        { name: "React 19", level: "Advanced", description: "Hooks, Server Components, Concurrent Features", highlight: true },
-        { name: "TypeScript", level: "Advanced", description: "Generics, Strict Typing, Utility Types", highlight: true },
-        { name: "Next.js / Vite", level: "Proficient", description: "SSR, SSG, Routing, Fast HMR Bundling" },
-        { name: "Modern CSS / PostCSS", level: "Advanced", description: "CSS Variables, Flexbox/Grid, Animations", highlight: true },
-        { name: "Tailwind CSS", level: "Proficient", description: "Token integration, JIT, Utility composition" },
-        { name: "State Architecture", level: "Proficient", description: "Zustand, Context API, Redux Toolkit" },
-        { name: "Web Performance", level: "Proficient", description: "Core Web Vitals, Bundle analysis, Tree shaking" }
+        { name: "React 19", level: "Advanced", description: "Hooks, Functional Components, State Architecture", highlight: true },
+        { name: "TypeScript", level: "Advanced", description: "Generics, Strict Typing, Interfaces", highlight: true },
+        { name: "JavaScript (ESNext)", level: "Advanced", description: "Async/await, Event loop, DOM APIs, Closures", highlight: true },
+        { name: "Modern CSS / CSS3", level: "Advanced", description: "CSS Variables, Flexbox/Grid, Animations, Transitions", highlight: true },
+        { name: "HTML5 / Semantic Web", level: "Advanced", description: "Accessible markup, Canvas API, Forms", highlight: true },
+        { name: "Vite", level: "Proficient", description: "Modern build tooling, Fast HMR, Bundling" },
+        { name: "Responsive Design", level: "Advanced", description: "Mobile-first layouts, Fluid typography" }
       ]
     },
     {
-      title: "Backend",
-      description: "Server runtimes, API architectures, and data persistence layers.",
+      title: "Programming & Algorithms",
+      description: "Languages, computational thinking, and algorithmic problem solving.",
       skills: [
-        { name: "Node.js", level: "Beginner", description: "Asynchronous I/O, REST APIs, Microservices", highlight: true },
-        { name: "Express.js", level: "Beginner", description: "Middleware design, routing, authentication" },
-        { name: "RESTful APIs", level: "Advanced", description: "Clean API contract design & error handling", highlight: true },
-        { name: "GraphQL", level: "Intermediate", description: "Schemas, Queries, Mutations, Apollo" },
-        { name: "PostgreSQL", level: "Beginner", description: "Relational schemas, queries, indexing" },
-        { name: "Supabase / Firebase", level: "Proficient", description: "Auth, Realtime subscriptions, Storage" }
+        { name: "C++", level: "Proficient", description: "Data structures, NeetCode/LeetCode problem solving, STL", highlight: true },
+        { name: "Algorithms & Data Structures", level: "Proficient", description: "Graphs, Trees, Dynamic Programming, Sorting", highlight: true },
+        { name: "TypeScript", level: "Advanced", description: "Type-safe systems engineering", highlight: true },
+        { name: "OOP & Design Patterns", level: "Proficient", description: "Encapsulation, Modular separation, Clean code" }
       ]
     },
     {
-      title: "Programming",
-      description: "Languages, algorithmic thinking, and software engineering principles.",
+      title: "Backend & APIs",
+      description: "Server communication, REST APIs, and data integration.",
       skills: [
-        { name: "TypeScript", level: "Advanced", description: "Primary engineering language", highlight: true },
-        { name: "JavaScript (ESNext)", level: "Advanced", description: "Prototypes, Event loop, Async/await" },
-        { name: "C#", level: "Intermediate", description: "Scripting, data parsing, backend utilities" },
-        { name: "SQL", level: "Proficient", description: "Data querying, joins, schema migrations" },
-        { name: "Algorithms & DS", level: "Proficient", description: "Computational complexity, graph & tree structures" }
+        { name: "RESTful APIs", level: "Advanced", description: "GitHub API integration, HTTP protocols, Fetch/Axios", highlight: true },
+        { name: "JSON Data Architecture", level: "Advanced", description: "Data schemas, Serialization, State hydration", highlight: true },
+        { name: "Node.js Basics", level: "Intermediate", description: "Runtime environment, npm packaging, CLI scripts" }
       ]
     },
     {
-      title: "UI/UX",
-      description: "Design systems, human-computer interaction, and aesthetic refinement.",
+      title: "Tools & Workflow",
+      description: "Version control, developer tooling, and modern deployment environments.",
       skills: [
-        { name: "Design Systems", level: "Advanced", description: "Token structures, design parity, component specs", highlight: true },
-        { name: "Figma", level: "Advanced", description: "Auto-layout, Components, Variables, Prototypes", highlight: true },
-        { name: "Accessibility (WCAG)", level: "Advanced", description: "Screen readers, ARIA roles, color contrast" },
-        { name: "Typography & Layout", level: "Advanced", description: "Hierarchical scales, optical tracking, baseline grid" },
-        { name: "Micro-Interactions", level: "Proficient", description: "Restrained physics, state indicators, hover feedback" }
-      ]
-    },
-    {
-      title: "Tools",
-      description: "Development workflow, version control, testing, and cloud infrastructure.",
-      skills: [
-        { name: "Git & GitHub", level: "Advanced", description: "Branching strategies, PR reviews, CI workflows", highlight: true },
-        { name: "Vite", level: "Advanced", description: "Modern build tooling, plugins, bundle optimization" },
-        { name: "Docker", level: "Intermediate", description: "Containerized development environments" },
-        { name: "Vitest / RTL", level: "Proficient", description: "Unit tests, integration tests, mock engines" },
-        { name: "Vercel / Netlify", level: "Proficient", description: "Edge deployments, preview environments" },
-        { name: "Chrome DevTools", level: "Advanced", description: "Memory profiling, network waterfall, flame charts", highlight: true }
+        { name: "Git & GitHub", level: "Advanced", description: "Branching, PRs, Version control, GitHub APIs", highlight: true },
+        { name: "VS Code", level: "Advanced", description: "Extensions, Debugging, Custom snippets" },
+        { name: "npm / Package Management", level: "Proficient", description: "Dependency management, build scripts" },
+        { name: "Chrome DevTools", level: "Advanced", description: "Network inspection, Console debugging, Performance", highlight: true }
       ]
     }
   ] as SkillCategory[],
 
   projects: [
     {
-      id: "chronos-studio",
-      name: "Chronos Design System & Studio",
-      category: "Design System",
-      tagline: "Token-driven component architecture with zero-drift synchronization.",
-      description: "An open, multi-brand React design system built on strict WCAG AAA guidelines. Includes an interactive live sandbox to inspect layout tokens, typography scales, and keyboard interactions.",
-      problemSolved: "Eliminates design-to-code divergence by feeding automated token pipelines directly from Figma variables into CSS custom properties with built-in contrast checkers.",
-      technologies: ["React 19", "TypeScript", "CSS Variables", "Vitest", "Storybook"],
-      githubUrl: "https://github.com/alexchen-dev/chronos-design-system",
-      demoUrl: "https://chronos-system.example.com",
-      status: "v2.4 Production",
-      highlights: ["35+ accessible primitives", "100% WCAG AAA contrast ratio", "Zero runtime overhead"],
-      featured: true
-    },
-    {
-      id: "pulse-flow",
-      name: "Pulse Flow — Telemetry & Metrics Engine",
+      id: "personal-website",
+      name: "Personal Website & Engineering Portfolio",
       category: "Frontend",
-      tagline: "High-frequency streaming telemetry dashboard rendering at continuous 60 FPS.",
-      description: "A developer-focused performance monitor that visualizes thousands of incoming websocket telemetry events per second without dropping frames or triggering main-thread layout thrash.",
-      problemSolved: "Offloads high-volume time-series parsing to dedicated Web Workers, utilizing HTML5 Canvas rendering buffers to keep the React UI responsive and fluid.",
-      technologies: ["React", "TypeScript", "Web Workers", "Canvas API", "WebSockets"],
-      githubUrl: "https://github.com/alexchen-dev/pulse-flow-telemetry",
-      demoUrl: "https://pulseflow.example.com",
-      status: "Active",
-      highlights: ["60 FPS under 10k events/sec", "Sub-15ms ingest latency", "Worker-isolated thread"],
-      featured: true
+      tagline: "Modern, high-performance portfolio and engineering showcase designed with architectural discipline.",
+      description: "An open, production-grade React 19 portfolio application built with TypeScript and Vite. Implements custom design tokens, keyboard-first command menu (Cmd+K), sub-100ms interaction latencies, and live GitHub API synchronization.",
+      problemSolved: "Consolidates technical projects, live GitHub repository integrations, design token sandbox, and interactive developer tooling in a zero-drift responsive web app with strict WCAG AAA contrast.",
+      technologies: ["React 19", "TypeScript", "Vite", "Design Systems", "CSS Variables", "GitHub API"],
+      githubUrl: "https://github.com/moaazelshazly/Personal_website",
+      demoUrl: "https://github.com/moaazelshazly/Personal_website",
+      status: "Production Active",
+      highlights: ["Live GitHub API data integration", "Linear-inspired design system with tokens", "Command-K global search navigation", "Zero runtime CSS overhead"],
+      featured: true,
+      stars: 0,
+      forks: 0,
+      language: "TypeScript",
+      defaultBranch: "main"
     },
     {
-      id: "devnotes-canvas",
-      name: "DevNotes — Keyboard-First Markdown Canvas",
-      category: "Full Stack",
-      tagline: "Distraction-free technical documentation workspace with instantaneous local cache.",
-      description: "A minimalist markdown editor crafted for software engineers. Features integrated command palette navigation, split-screen AST preview, syntax highlighting, and local-first offline syncing.",
-      problemSolved: "Replaces sluggish, bloated note apps with a lightning-fast native-feeling desktop experience that starts in under 200ms and syncs without cloud lock-in.",
-      technologies: ["Next.js", "TypeScript", "IndexedDB", "Zustand", "Shiki"],
-      githubUrl: "https://github.com/alexchen-dev/devnotes-canvas",
-      demoUrl: "https://devnotes.example.com",
-      status: "Open Source",
-      highlights: ["Instant local-first storage", "<40ms keystroke latency", "Command-K workflow"],
-      featured: true
+      id: "typingapp-react",
+      name: "TypingApp React — Speed & Accuracy Engine",
+      category: "Frontend",
+      tagline: "Interactive typing speed benchmark tracking real-time WPM, keystroke metrics, and error rates.",
+      description: "A responsive web application built with React and Vite for testing and improving typing speed. Features real-time Words Per Minute (WPM) telemetry, accuracy percentage, character-by-character validation, and timer countdown mechanics.",
+      problemSolved: "Solves UI input lag during rapid typing by decoupling keystroke event recording from the calculation loop, preventing frame drops and layout thrash even during 120+ WPM bursts.",
+      technologies: ["React", "JavaScript", "Vite", "CSS3", "State Architecture"],
+      githubUrl: "https://github.com/moaazelshazly/TypingApp_React",
+      status: "Active Project",
+      highlights: ["Sub-16ms keystroke input response", "Real-time WPM & accuracy telemetry", "Custom timer & sentence randomizer", "Instant visual error diagnostics"],
+      featured: true,
+      stars: 0,
+      forks: 0,
+      language: "JavaScript",
+      defaultBranch: "main"
     },
     {
-      id: "aura-ledger",
-      name: "Aura Ledger — Financial Analytics Dashboard",
+      id: "js-game",
+      name: "Word Guess Arcade — Vanilla JS Engine",
+      category: "Frontend",
+      tagline: "Interactive browser puzzle game built with native JavaScript, custom DOM physics, and animations.",
+      description: "A minimalist, retro-inspired word guessing game built with zero external framework dependencies. Implements custom DOM manipulation, state transitions, animated feedback, hint reveal mechanics, and full keyboard accessibility.",
+      problemSolved: "Demonstrates foundational mastery of the JavaScript event loop, DOM tree mutation performance, and CSS keyframe animations without relying on third-party runtime bundles.",
+      technologies: ["JavaScript (ESNext)", "HTML5 DOM", "CSS3 Animations", "Event Handling"],
+      githubUrl: "https://github.com/moaazelshazly/JsGame",
+      status: "Completed",
+      highlights: ["Zero external dependencies", "Native event loop architecture", "Keyboard-accessible interaction", "Dynamic hint and state feedback"],
+      featured: true,
+      stars: 0,
+      forks: 0,
+      language: "JavaScript",
+      defaultBranch: "main"
+    },
+    {
+      id: "neetcode-submissions",
+      name: "Algorithms & Data Structures Repository",
       category: "Performance",
-      tagline: "Interactive portfolio analytics with real-time multi-currency reconciliation.",
-      description: "A financial intelligence platform presenting multi-asset portfolios, profit-loss trees, and predictive projections across global currencies with instant filtering and sorting.",
-      problemSolved: "Transforms dense, multi-thousand row tabular datasets into intuitive responsive tables and high-density charts with sub-100ms calculation speeds.",
-      technologies: ["React 19", "TypeScript", "Node.js", "PostgreSQL", "SVG Charts"],
-      githubUrl: "https://github.com/alexchen-dev/aura-financial-ledger",
-      demoUrl: "https://aura-ledger.example.com",
-      status: "Beta v1.1",
-      highlights: ["Sub-100ms calculation engine", "Keyboard table navigation", "Exportable audit logs"],
-      featured: false
+      tagline: "Curated solutions to complex algorithmic challenges and computer science patterns in C++.",
+      description: "An organized repository of optimal C++ solutions for NeetCode and LeetCode problems. Focuses on data structures (Binary Search Trees, Heaps, Graphs, Hash Maps) and algorithmic strategies (Dynamic Programming, Sliding Window, Two Pointers).",
+      problemSolved: "Provides memory-efficient and asymptotically optimal solutions with rigorous Big-O time and space complexity documentation for competitive programming and technical interviews.",
+      technologies: ["C++", "Algorithms", "Data Structures", "Big-O Analysis", "NeetCode"],
+      githubUrl: "https://github.com/moaazelshazly/neetcode-submissions",
+      status: "Active Lab",
+      highlights: ["Optimal asymptotic time & space", "Graphs, Dynamic Programming, Trees", "Clean C++ algorithmic implementations", "NeetCode 150 patterns"],
+      featured: false,
+      stars: 0,
+      forks: 0,
+      language: "C++",
+      defaultBranch: "main"
+    },
+    {
+      id: "mine-project",
+      name: "Mine Project — Collaborative Repository",
+      category: "Full Stack",
+      tagline: "Collaborative software engineering project exploring component integration and team workflows.",
+      description: "A collaborative engineering repository built with Git version control workflows, modular architecture, and structured team branch management.",
+      problemSolved: "Facilitates clean multi-developer collaboration, code isolation, and git version control discipline across shared feature modules.",
+      technologies: ["Git", "Modular Architecture", "Web Engineering"],
+      githubUrl: "https://github.com/Mohamed-Elsayed-Saad/Mine-Project",
+      status: "Collaborative",
+      highlights: ["Multi-contributor Git workflow", "Clean code organization", "Feature branch reviews"],
+      featured: false,
+      stars: 0,
+      forks: 0,
+      language: "Web",
+      defaultBranch: "main"
     }
   ] as Project[],
 
@@ -205,49 +229,32 @@ export const PORTFOLIO_DATA = {
     {
       id: "exp-1",
       type: "experience",
-      title: "Frontend Engineering Intern / Fellow",
-      institution: "Vanguard Tech Innovations",
+      title: "Frontend & Web Application Developer",
+      institution: "Independent & Open Source Projects",
       period: "2024 — Present",
-      location: "San Francisco, CA (Hybrid)",
-      description: "Developing mission-critical internal client dashboards and design system components for distributed engineering teams.",
-      bullets: [
-        "Architected 14+ foundational component primitives adopted across 3 core product teams, cutting feature turnaround time by 30%.",
-        "Refactored data-heavy client tables using virtual scrolling, reducing memory footprint by 40% and eliminating scroll stutter.",
-        "Authored comprehensive unit and integration test suites using Vitest and React Testing Library, achieving 92% coverage."
-      ],
-      tech: ["React", "TypeScript", "CSS Variables", "Vitest", "GitLab CI"],
-      badge: "Current Role"
-    },
-    {
-      id: "exp-2",
-      type: "experience",
-      title: "Independent UI/UX & Web Developer",
-      institution: "Freelance & Open Source",
-      period: "2023 — 2024",
       location: "Remote",
-      description: "Designed and engineered modern web applications, landing interfaces, and design libraries for tech startups and creator platforms.",
+      description: "Architecting and developing modern web applications, interactive tools, and design systems using React 19, TypeScript, and Vite.",
       bullets: [
-        "Built responsive marketing and dashboard web apps adhering to strict accessibility (WCAG AA/AAA) and SEO requirements.",
-        "Collaborated with technical founders to translate raw product concepts into interactive Figma prototypes and performant codebases.",
-        "Maintained open-source React UI utilities with active community documentation and automated CI releases."
+        "Engineered high-performance React applications including a real-time Typing Benchmark engine and interactive Vanilla JS arcade game.",
+        "Integrated live GitHub API synchronization pipelines for real-time repository telemetry, commit updates, and metadata rendering.",
+        "Designed and refined accessible design systems adhering to strict WCAG AAA color contrast ratios and keyboard-first navigation patterns."
       ],
-      tech: ["React", "TypeScript", "Next.js", "Figma", "Tailwind CSS"],
-      badge: "Contract"
+      tech: ["React 19", "TypeScript", "Vite", "REST APIs", "CSS Variables"],
+      badge: "Active"
     },
     {
       id: "edu-1",
       type: "education",
       title: "B.S. in Computer Science",
-      institution: "State University of Technology",
-      period: "2021 — 2025 (Expected)",
-      location: "United States",
-      description: "Focusing on Software Engineering, Human-Computer Interaction, and Distributed Web Systems.",
+      institution: "Faculty of Computer Science",
+      period: "2022 — Present",
+      location: "Tanta, Egypt",
+      description: "Specializing in Software Engineering, Algorithms & Data Structures, and Web Technologies.",
       bullets: [
-        "Relevant Coursework: Web Application Architecture, Algorithms & Complexity, Database Management Systems, Computer Networks.",
-        "Lead Developer in Collegiate Hackathon Club; mentored junior students in TypeScript and modern frontend best practices.",
-        "Dean's Honor List for academic excellence across consecutive semesters."
+        "Extensive problem-solving coursework covering Graph Algorithms, Dynamic Programming, and Computational Complexity (NeetCode / LeetCode).",
+        "Building practical full-stack and frontend systems with clean architecture, type safety, and modern software design patterns."
       ],
-      tech: ["Algorithms", "Data Structures", "Web Systems", "HCI"],
+      tech: ["C++", "Algorithms", "Data Structures", "TypeScript", "OOP"],
       badge: "Academic"
     }
   ] as TimelineItem[]

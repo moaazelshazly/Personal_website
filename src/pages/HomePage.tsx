@@ -2,11 +2,26 @@ import React from 'react';
 import { useLoaderData, Link } from 'react-router';
 import { Hero } from '../components/Hero';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { fetchPortfolioProjects, fetchGitHubProfile } from '../TS/Fetcg';
 import { ArrowRightIcon, CodeIcon, LayersIcon, BriefcaseIcon, CpuIcon, MailIcon, CheckIcon } from '../components/Icons';
 
 export async function homeLoader() {
+  const projects = await fetchPortfolioProjects();
+  const profile = await fetchGitHubProfile();
+
   return {
-    portfolio: PORTFOLIO_DATA
+    portfolio: {
+      ...PORTFOLIO_DATA,
+      projects,
+      personal: {
+        ...PORTFOLIO_DATA.personal,
+        ...(profile ? {
+          avatarUrl: profile.avatar_url,
+          bio: profile.bio || PORTFOLIO_DATA.personal.bio,
+          publicReposCount: profile.public_repos,
+        } : {})
+      }
+    }
   };
 }
 
@@ -20,8 +35,8 @@ export const HomePage: React.FC = () => {
       title: 'Engineered Projects',
       tag: '01 // WORK',
       icon: <LayersIcon size={18} />,
-      desc: 'High-performance React 19 apps, streaming telemetry dashboards, and component studios with architectural deep dives.',
-      count: `${portfolio.projects.length} Case Studies`
+      desc: 'High-performance React apps, speed typing benchmark, and vanilla JS game with live GitHub repository sync.',
+      count: `${portfolio.projects.length} Repositories`
     },
     {
       to: '/skills',

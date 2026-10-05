@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData, NavLink, type LoaderFunctionArgs } from 'react-router';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
-import { GithubIcon, ExternalLinkIcon, CheckIcon, ArrowRightIcon } from '../components/Icons';
+import { fetchPortfolioProjects, formatGitHubDate, getLanguageColor } from '../TS/Fetcg';
+import {
+  GithubIcon,
+  ExternalLinkIcon,
+  CheckIcon,
+  ArrowRightIcon,
+  StarIcon,
+  GitForkIcon,
+  GitBranchIcon,
+  ClockIcon,
+  CopyIcon,
+} from '../components/Icons';
 
 export async function projectDetailLoader({ params }: LoaderFunctionArgs) {
   const { projectId } = params;
-  const project = PORTFOLIO_DATA.projects.find((p) => p.id === projectId);
+  const projects = await fetchPortfolioProjects();
+  const project = projects.find(
+    (p) =>
+      p.id.toLowerCase() === projectId?.toLowerCase() ||
+      p.id.toLowerCase().replace(/[-_]/g, '') === projectId?.toLowerCase().replace(/[-_]/g, '')
+  );
 
   if (!project) {
     throw new Response("Project Not Found", {
@@ -15,21 +30,30 @@ export async function projectDetailLoader({ params }: LoaderFunctionArgs) {
   }
 
   // Find next project for seamless navigation
-  const currentIndex = PORTFOLIO_DATA.projects.findIndex((p) => p.id === projectId);
-  const nextProject = PORTFOLIO_DATA.projects[(currentIndex + 1) % PORTFOLIO_DATA.projects.length];
+  const currentIndex = projects.findIndex((p) => p.id === project.id);
+  const nextProject = projects[(currentIndex + 1) % projects.length];
 
   return { project, nextProject };
 }
 
 export const ProjectDetailPage: React.FC = () => {
   const { project, nextProject } = useLoaderData<typeof projectDetailLoader>();
+  const [copiedClone, setCopiedClone] = useState(false);
+
+  const cloneCommand = `git clone ${project.githubUrl}.git`;
+
+  const handleCopyClone = () => {
+    navigator.clipboard.writeText(cloneCommand);
+    setCopiedClone(true);
+    setTimeout(() => setCopiedClone(false), 2000);
+  };
 
   return (
     <div className="project-detail-page section-padding">
       <div className="section-container">
         {/* Navigation Breadcrumb */}
         <div className="detail-breadcrumb">
-          <NavLink to="/#projects" className="back-link">
+          <NavLink to="/projects" className="back-link">
             <span>← Return to Projects</span>
           </NavLink>
           <span className="breadcrumb-separator">/</span>
@@ -44,32 +68,43 @@ export const ProjectDetailPage: React.FC = () => {
               <span className="status-dot-sm" />
               {project.status}
             </span>
+            {project.language && (
+              <span className="language-indicator-pill">
+                <span
+                  className="lang-dot"
+                  style={{ backgroundColor: getLanguageColor(project.language) }}
+                />
+                <span>{project.language}</span>
+              </span>
+            )}
           </div>
 
           <h1 className="detail-title">{project.name}</h1>
           <p className="detail-tagline">{project.tagline}</p>
 
           <div className="detail-actions">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary"
+            >
+              <GithubIcon size={15} />
+              <span>View on GitHub (@moaazelshazly)</span>
+              <ExternalLinkIcon size={13} />
+            </a>
+
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-primary"
+                className="btn btn-secondary"
               >
                 <span>Launch Live Application</span>
-                <ExternalLinkIcon size={15} />
+                <ExternalLinkIcon size={14} />
               </a>
             )}
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary"
-            >
-              <GithubIcon size={15} />
-              <span>Inspect Source Code</span>
-            </a>
           </div>
         </header>
 
@@ -106,14 +141,96 @@ export const ProjectDetailPage: React.FC = () => {
                 ))}
               </div>
             </section>
+
+            {/* Quick Clone Terminal Box */}
+            <section className="detail-section-block">
+              <h2 className="detail-section-heading">Clone &amp; Run Locally</h2>
+              <div className="clone-terminal-box">
+                <div className="clone-code-row">
+                  <span className="terminal-prompt">$</span>
+                  <code className="clone-code-text">{cloneCommand}</code>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyClone}
+                  className="clone-copy-btn"
+                  aria-label="Copy clone command"
+                  title="Copy to clipboard"
+                >
+                  {copiedClone ? (
+                    <>
+                      <CheckIcon size={13} />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon size={13} />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </section>
           </div>
 
           {/* Sidebar Specs & Tech Stack */}
           <aside className="detail-sidebar-column">
+            {/* Live GitHub Telemetry Card */}
+            <div className="detail-spec-card github-telemetry-card">
+              <div className="spec-card-header">
+                <span className="card-badge">GitHub Telemetry</span>
+                <span className="live-pulse-badge">
+                  <span className="status-dot-sm green-pulse" />
+                  Live API
+                </span>
+              </div>
+              <div className="spec-item-list">
+                <div className="spec-item">
+                  <span className="spec-item-key">Repository</span>
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="spec-item-val link-val"
+                  >
+                    moaazelshazly/{project.id}
+                  </a>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-item-key">Stars</span>
+                  <span className="spec-item-val stat-badge">
+                    <StarIcon size={12} />
+                    {project.stars ?? 0}
+                  </span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-item-key">Forks</span>
+                  <span className="spec-item-val stat-badge">
+                    <GitForkIcon size={12} />
+                    {project.forks ?? 0}
+                  </span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-item-key">Default Branch</span>
+                  <span className="spec-item-val stat-badge">
+                    <GitBranchIcon size={12} />
+                    {project.defaultBranch || 'main'}
+                  </span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-item-key">Last Synced</span>
+                  <span className="spec-item-val stat-badge">
+                    <ClockIcon size={12} />
+                    {formatGitHubDate(project.updatedAt)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             {/* System Specification Card */}
             <div className="detail-spec-card">
               <div className="spec-card-header">
-                <span className="card-badge">System Specifications</span>
+                <span className="card-badge">Architecture Spec</span>
               </div>
               <div className="spec-item-list">
                 <div className="spec-item">
@@ -150,7 +267,7 @@ export const ProjectDetailPage: React.FC = () => {
             {/* Next Project Teaser */}
             {nextProject && (
               <div className="next-project-card">
-                <span className="next-label">Next Case Study</span>
+                <span className="next-label">Next Project</span>
                 <NavLink to={`/projects/${nextProject.id}`} className="next-link">
                   <span className="next-title">{nextProject.name}</span>
                   <ArrowRightIcon size={14} />

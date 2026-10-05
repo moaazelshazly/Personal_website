@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moaaz Elshazly — Frontend Engineer & UI/UX Designer</title>
+  <title>Moaaz Elshazly — Frontend Engineer &amp; Software Developer</title>
   <meta name="description"
     content="Personal developer portfolio of Moaaz Elshazly. Specializing in high-performance React/TypeScript web applications, design systems, and precision user interfaces." />
   <meta name="theme-color" content="#08090a" />
@@ -14,6 +14,20 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
+
+  <!-- Single Page Apps for GitHub Pages URL restoration -->
+  <script type="text/javascript">
+    (function(l) {
+      if (l.search[1] === '/' ) {
+        var decoded = l.search.slice(1).split('&').map(function(s) { 
+          return s.replace(/~and~/g, '&')
+        }).join('?');
+        window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    }(window.location))
+  </script>
 </head>
 
 <body>

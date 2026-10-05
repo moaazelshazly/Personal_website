@@ -26,9 +26,12 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-      setSearch('');
-      setSelectedIndex(0);
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+        setSearch('');
+        setSelectedIndex(0);
+      }, 20);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
@@ -135,7 +138,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       id: 'act-github',
       category: 'Social',
       title: 'Open GitHub Profile',
-      subtitle: 'github.com/alexchen-dev',
+      subtitle: 'github.com/moaazelshazly',
       icon: <GithubIcon size={14} />,
       action: () => {
         window.open(PORTFOLIO_DATA.personal.github, '_blank');
@@ -146,7 +149,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       id: 'act-linkedin',
       category: 'Social',
       title: 'Open LinkedIn Profile',
-      subtitle: 'linkedin.com/in/alexchen-dev',
+      subtitle: 'linkedin.com/in/moaaz-elshazly',
       icon: <LinkedinIcon size={14} />,
       action: () => {
         window.open(PORTFOLIO_DATA.personal.linkedin, '_blank');

@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { CheckIcon, SparklesIcon, TerminalIcon, LayersIcon, CpuIcon } from './Icons';
+import {
+  CheckIcon,
+  SparklesIcon,
+  TerminalIcon,
+  LayersIcon,
+  CpuIcon,
+  GithubIcon,
+  ExternalLinkIcon
+} from './Icons';
 
 export const InteractiveHeroCard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'metrics' | 'tokens' | 'spec'>('metrics');
+  const [activeTab, setActiveTab] = useState<'metrics' | 'tokens' | 'spec' | 'github'>('metrics');
   const [accentColor, setAccentColor] = useState<'indigo' | 'emerald' | 'amber'>('indigo');
   const [specState, setSpecState] = useState({
     active: true,
@@ -40,7 +48,16 @@ export const InteractiveHeroCard: React.FC = () => {
             onClick={() => setActiveTab('metrics')}
           >
             <CpuIcon size={13} />
-            <span>Architecture & Metrics</span>
+            <span>Architecture &amp; Metrics</span>
+          </button>
+          <button
+            role="tab"
+            aria-selected={activeTab === 'github'}
+            className={`console-tab ${activeTab === 'github' ? 'active' : ''}`}
+            onClick={() => setActiveTab('github')}
+          >
+            <GithubIcon size={13} />
+            <span>GitHub Live (@moaazelshazly)</span>
           </button>
           <button
             role="tab"
@@ -64,7 +81,7 @@ export const InteractiveHeroCard: React.FC = () => {
 
         <div className="console-status-indicator">
           <span className="live-indicator-pulse" />
-          <span className="live-text">ENGINE OK</span>
+          <span className="live-text">GITHUB SYNC OK</span>
         </div>
       </div>
 
@@ -101,11 +118,66 @@ export const InteractiveHeroCard: React.FC = () => {
 
             <div className="metric-box">
               <div className="metric-top">
-                <span className="metric-label">CSS Footprint</span>
-                <span className="metric-tag tag-indigo">Tokens Only</span>
+                <span className="metric-label">GitHub Telemetry</span>
+                <span className="metric-tag tag-indigo">REST API v3</span>
               </div>
-              <div className="metric-value">0<span className="metric-unit">Runtime KB</span></div>
-              <div className="metric-desc">Zero runtime CSS-in-JS parsing overhead.</div>
+              <div className="metric-value">4<span className="metric-unit">Live Repos</span></div>
+              <div className="metric-desc">Dynamic sync with GitHub Personal Access Token.</div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'github' && (
+          <div className="github-console-panel">
+            <div className="github-profile-bar">
+              <div className="profile-bar-left">
+                <span className="profile-dot-live" />
+                <span className="profile-handle">github.com/moaazelshazly</span>
+                <span className="profile-badge-pill">4 Public Repos</span>
+              </div>
+              <a
+                href="https://github.com/moaazelshazly"
+                target="_blank"
+                rel="noreferrer"
+                className="profile-visit-btn"
+              >
+                <span>Open Profile</span>
+                <ExternalLinkIcon size={12} />
+              </a>
+            </div>
+
+            <div className="github-repos-mini-grid">
+              <div className="mini-repo-card">
+                <div className="mini-repo-top">
+                  <span className="mini-repo-name">Personal_website</span>
+                  <span className="mini-repo-lang lang-ts">TypeScript</span>
+                </div>
+                <p className="mini-repo-desc">Modern engineering portfolio with React 19 + Vite</p>
+              </div>
+
+              <div className="mini-repo-card">
+                <div className="mini-repo-top">
+                  <span className="mini-repo-name">TypingApp_React</span>
+                  <span className="mini-repo-lang lang-js">JavaScript</span>
+                </div>
+                <p className="mini-repo-desc">Real-time typing speed benchmark &amp; WPM calculator</p>
+              </div>
+
+              <div className="mini-repo-card">
+                <div className="mini-repo-top">
+                  <span className="mini-repo-name">JsGame</span>
+                  <span className="mini-repo-lang lang-js">JavaScript</span>
+                </div>
+                <p className="mini-repo-desc">Word-guessing browser game with pure DOM &amp; animations</p>
+              </div>
+
+              <div className="mini-repo-card">
+                <div className="mini-repo-top">
+                  <span className="mini-repo-name">neetcode-submissions</span>
+                  <span className="mini-repo-lang lang-cpp">C++</span>
+                </div>
+                <p className="mini-repo-desc">Data structures &amp; algorithmic problem solutions</p>
+              </div>
             </div>
           </div>
         )}
@@ -215,8 +287,8 @@ export const InteractiveHeroCard: React.FC = () => {
 
       {/* Console Bottom Bar */}
       <div className="console-footer">
-        <span className="footer-mono">git commit: <code>4f9a2e</code> (HEAD -&gt; main)</span>
-        <span className="footer-runtime">Node.js 20 · React 19 · Vite 8</span>
+        <span className="footer-mono">git remote: <code>github.com/moaazelshazly</code></span>
+        <span className="footer-runtime">Node.js 24 · React 19 · Vite 8</span>
       </div>
     </div>
   );

@@ -11,29 +11,49 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }) => {
   return (
     <section id="hero" className="hero-section">
-      {/* Ambient background glow (restrained, Linear-style, not generic AI blob) */}
+      {/* Ambient background glow (restrained, Linear-style) */}
       <div className="hero-ambient-glow" aria-hidden="true" />
       <div className="hero-grid-pattern" aria-hidden="true" />
 
       <div className="section-container">
-        {/* Status Callout Pill */}
+        {/* Status Callout & GitHub Profile Badge */}
         <div className="hero-status-wrapper">
           <div className="status-pill">
             <span className="status-dot" />
             <span className="status-text">{personal.statusBadge}</span>
           </div>
+          <a
+            href={personal.github}
+            target="_blank"
+            rel="noreferrer"
+            className="hero-github-pill"
+            title="View Moaaz Elshazly's GitHub Profile"
+          >
+            <GithubIcon size={13} />
+            <span>@moaazelshazly · {personal.publicReposCount || 4} Repos</span>
+            <span className="live-dot-green" />
+          </a>
         </div>
 
         {/* Hero Title & Subtitle */}
         <div className="hero-content">
-          <div className="hero-author-meta">
-            <span className="author-name">{personal.name}</span>
-            <span className="meta-separator">/</span>
-            <span className="author-title">{personal.role}</span>
+          <div className="hero-profile-avatar-row">
+            <img
+              src={personal.avatarUrl || "https://avatars.githubusercontent.com/u/181676567?v=4"}
+              alt={personal.name}
+              className="hero-avatar-img"
+            />
+            <div className="hero-author-meta">
+              <span className="author-name">{personal.name}</span>
+              <span className="meta-separator">/</span>
+              <span className="author-title">{personal.role}</span>
+              <span className="meta-separator">/</span>
+              <span className="author-location">{personal.location}</span>
+            </div>
           </div>
 
           <h1 className="hero-headline">
-            Engineering precision interfaces, design systems, and resilient web applications.
+            Engineering precision interfaces, interactive tools, and clean web applications.
           </h1>
 
           <p className="hero-description">
@@ -65,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
                 target="_blank"
                 rel="noreferrer"
                 className="social-pill-btn"
-                title="GitHub Profile"
+                title="GitHub Profile (@moaazelshazly)"
               >
                 <GithubIcon size={16} />
                 <span>GitHub</span>
