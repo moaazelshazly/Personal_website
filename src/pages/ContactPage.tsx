@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData, Link } from 'react-router';
+import { useLoaderData, NavLink } from 'react-router';
 import { Contact } from '../components/Contact';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
@@ -13,9 +13,9 @@ export const ContactPage: React.FC = () => {
   return (
     <div className="subpage-wrapper">
       <div className="section-container subpage-breadcrumb-container">
-        <Link to="/" className="back-link">
+        <NavLink to="/" className="back-link">
           ← Return to Full Portfolio Overview
-        </Link>
+        </NavLink>
       </div>
       <Contact personal={personal} />
     </div>

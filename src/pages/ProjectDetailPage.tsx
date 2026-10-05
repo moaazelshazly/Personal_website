@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData, Link, type LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, NavLink, type LoaderFunctionArgs } from 'react-router';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { GithubIcon, ExternalLinkIcon, CheckIcon, ArrowRightIcon } from '../components/Icons';
 
@@ -29,9 +29,9 @@ export const ProjectDetailPage: React.FC = () => {
       <div className="section-container">
         {/* Navigation Breadcrumb */}
         <div className="detail-breadcrumb">
-          <Link to="/#projects" className="back-link">
+          <NavLink to="/#projects" className="back-link">
             <span>← Return to Projects</span>
-          </Link>
+          </NavLink>
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-current">{project.id}</span>
         </div>
@@ -151,10 +151,10 @@ export const ProjectDetailPage: React.FC = () => {
             {nextProject && (
               <div className="next-project-card">
                 <span className="next-label">Next Case Study</span>
-                <Link to={`/projects/${nextProject.id}`} className="next-link">
+                <NavLink to={`/projects/${nextProject.id}`} className="next-link">
                   <span className="next-title">{nextProject.name}</span>
                   <ArrowRightIcon size={14} />
-                </Link>
+                </NavLink>
               </div>
             )}
           </aside>

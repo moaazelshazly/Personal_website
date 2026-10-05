@@ -98,11 +98,11 @@ export const PORTFOLIO_DATA = {
       title: "Backend",
       description: "Server runtimes, API architectures, and data persistence layers.",
       skills: [
-        { name: "Node.js", level: "Proficient", description: "Asynchronous I/O, REST APIs, Microservices", highlight: true },
-        { name: "Express.js", level: "Proficient", description: "Middleware design, routing, authentication" },
+        { name: "Node.js", level: "Beginner", description: "Asynchronous I/O, REST APIs, Microservices", highlight: true },
+        { name: "Express.js", level: "Beginner", description: "Middleware design, routing, authentication" },
         { name: "RESTful APIs", level: "Advanced", description: "Clean API contract design & error handling", highlight: true },
         { name: "GraphQL", level: "Intermediate", description: "Schemas, Queries, Mutations, Apollo" },
-        { name: "PostgreSQL", level: "Proficient", description: "Relational schemas, queries, indexing" },
+        { name: "PostgreSQL", level: "Beginner", description: "Relational schemas, queries, indexing" },
         { name: "Supabase / Firebase", level: "Proficient", description: "Auth, Realtime subscriptions, Storage" }
       ]
     },
