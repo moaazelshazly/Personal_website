@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
           onClick={() => setMobileMenuOpen(false)}
         >
           <div className="brand-symbol">
-            <span className="symbol-inner">AC</span>
+            <span className="symbol-inner">M E</span>
           </div>
           <div className="brand-text">
             <span className="brand-name">{PORTFOLIO_DATA.personal.name}</span>
