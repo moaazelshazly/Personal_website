@@ -17,7 +17,7 @@ class HydrationController {
   private isExiting = false;
   private isPageDataLoaded = false;
   private startTime = 0;
-  private tickerId: any = null;
+  private tickerId: number = null;
   private listeners: Set<HydrationListener> = new Set();
   private skipResolver: (() => void) | null = null;
   private isPreviewMode = false;
@@ -57,8 +57,8 @@ class HydrationController {
     const remaining = Math.max(0, this.MAX_DURATION_MS - elapsed);
     const progress = Math.min(100, Math.round((elapsed / this.MAX_DURATION_MS) * 100));
 
-    let stepIndex = 0;
-    let statusText = 'Initializing portfolio runtime...';
+    let stepIndex: number;
+    let statusText: string;
 
     if (this.isPageDataLoaded) {
       if (remaining <= 600 || this.isExiting) {
@@ -107,7 +107,6 @@ class HydrationController {
       this.skipResolver = null;
     }
   }
-
   /**
    * Coordinates the initial loader with:
    * 1. Data load completion
@@ -196,7 +195,6 @@ class HydrationController {
       this.tickerId = null;
     }
   }
-
   /**
    * Trigger preview mode for testing and demonstrations
    */
@@ -211,7 +209,6 @@ class HydrationController {
     setTimeout(() => {
       this.isPageDataLoaded = true;
     }, 1500);
-
     const check = () => {
       const elapsed = Date.now() - this.startTime;
       if (elapsed >= this.MAX_DURATION_MS) {
@@ -232,5 +229,4 @@ class HydrationController {
     setTimeout(check, 50);
   }
 }
-
 export const hydrationController = new HydrationController();
