@@ -186,6 +186,16 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
                 </div>
               </div>
 
+              {/* Honeypot: hidden from humans, catches spam bots */}
+              <input
+                type="text"
+                name="_honey"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+              />
+
               <div className="form-group">
                 <label htmlFor="subject" className="form-label">
                   Subject / Topic
@@ -228,7 +238,7 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
                     </>
                   )}
                 </button>
-                <span className="privacy-note">Powered by React Router Data Action.</span>
+                <span className="privacy-note">Delivered straight to my inbox. Your email is only used to reply.</span>
               </div>
             </fetcher.Form>
           </div>

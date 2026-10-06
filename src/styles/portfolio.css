@@ -3482,5 +3482,234 @@ code, kbd, pre {
   text-decoration: underline;
 }
 
+/* --------------------------------------------------------------------------
+   Hero GitHub Profile Link (avatar + name)
+   -------------------------------------------------------------------------- */
+.hero-status-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-avatar-link {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.hero-avatar-link:hover .hero-avatar-img {
+  transform: scale(1.05);
+  border-color: var(--color-indigo);
+}
+
+.hero-avatar-gh-badge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-level-2, #141516);
+  border: 1px solid var(--color-border-translucent-strong);
+  color: var(--color-text-primary);
+}
+
+.author-name-link {
+  transition: color var(--transition-fast);
+}
+
+.author-name-link:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hero-author-meta {
+  flex-wrap: wrap;
+  row-gap: 4px;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layer — Tablet & Mobile
+   -------------------------------------------------------------------------- */
+img, svg, video {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  /* Hero */
+  .hero-section {
+    padding-top: 96px;
+    padding-bottom: 56px;
+    min-height: auto;
+  }
+
+  .hero-ambient-glow {
+    width: 100%;
+  }
+
+  .hero-content {
+    margin-bottom: 32px;
+  }
+
+  .hero-headline {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .hero-social-links {
+    margin-left: 0;
+  }
+
+  /* Console card */
+  .console-header {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+
+  .console-tabs {
+    order: 3;
+    width: 100%;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .console-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .console-body {
+    padding: 16px;
+  }
+
+  .console-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .github-profile-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .profile-bar-left {
+    flex-wrap: wrap;
+  }
+
+  .profile-handle {
+    word-break: break-all;
+  }
+
+  .tokens-picker-bar,
+  .sandbox-controls {
+    flex-wrap: wrap;
+  }
+
+  /* Home gateway / banners */
+  .gateway-card {
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .home-featured-banner,
+  .home-contact-banner {
+    padding: 20px;
+  }
+
+  .featured-title {
+    font-size: 19px;
+  }
+
+  /* Projects */
+  .project-main-meta {
+    padding: 20px;
+  }
+
+  .project-badge-row {
+    flex-wrap: wrap;
+  }
+
+  .project-subtabs {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .project-subtab-btn {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-profile-avatar-row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hero-avatar-img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-author-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 12px;
+  }
+
+  .hero-author-meta .meta-separator {
+    display: none;
+  }
+
+  .status-pill,
+  .hero-github-pill {
+    font-size: 11px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-social-links {
+    width: 100%;
+  }
+
+  .hero-social-links .social-pill-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .console-status-indicator {
+    display: none;
+  }
+
+  .featured-banner-action,
+  .featured-banner-action .btn,
+  .home-contact-banner .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .status-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
 
 

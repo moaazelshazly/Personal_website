@@ -38,13 +38,32 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
         {/* Hero Title & Subtitle */}
         <div className="hero-content">
           <div className="hero-profile-avatar-row">
-            <img
-              src={personal.avatarUrl || "https://avatars.githubusercontent.com/u/181676567?v=4"}
-              alt={personal.name}
-              className="hero-avatar-img"
-            />
+            <a
+              href={personal.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-avatar-link"
+              title="View GitHub Profile (@moaazelshazly)"
+              aria-label={`${personal.name} on GitHub`}
+            >
+              <img
+                src={personal.avatarUrl || "https://avatars.githubusercontent.com/u/181676567?v=4"}
+                alt={personal.name}
+                className="hero-avatar-img"
+              />
+              <span className="hero-avatar-gh-badge" aria-hidden="true">
+                <GithubIcon size={11} />
+              </span>
+            </a>
             <div className="hero-author-meta">
-              <span className="author-name">{personal.name}</span>
+              <a
+                href={personal.github}
+                target="_blank"
+                rel="noreferrer"
+                className="author-name author-name-link"
+              >
+                {personal.name}
+              </a>
               <span className="meta-separator">/</span>
               <span className="author-title">{personal.role}</span>
               <span className="meta-separator">/</span>
