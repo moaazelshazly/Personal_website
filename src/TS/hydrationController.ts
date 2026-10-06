@@ -17,7 +17,7 @@ class HydrationController {
   private isExiting = false;
   private isPageDataLoaded = false;
   private startTime = 0;
-  private tickerId: number = null;
+  private tickerId: number | null = null;
   private listeners: Set<HydrationListener> = new Set();
   private skipResolver: (() => void) | null = null;
   private isPreviewMode = false;
