@@ -9,6 +9,20 @@
   <meta name="description"
     content="Personal developer portfolio of Moaaz Elshazly. Specializing in high-performance React/TypeScript web applications, design systems, and precision user interfaces." />
   <meta name="theme-color" content="#08090a" />
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem('portfolio-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = mode === 'light' ? 'light' : mode === 'dark' ? 'dark' : (prefersDark ? 'dark' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.add(theme);
+        document.documentElement.style.colorScheme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#08090a' : '#ffffff');
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -28,8 +42,8 @@
       }
     }(window.location))
   </script>
-  <script type="module" crossorigin src="/Personal_website/assets/index-CC-kvt8k.js"></script>
-  <link rel="stylesheet" crossorigin href="/Personal_website/assets/index-D5NQT40U.css">
+  <script type="module" crossorigin src="/Personal_website/assets/index-BmGjF06K.js"></script>
+  <link rel="stylesheet" crossorigin href="/Personal_website/assets/index-EP1bFyV0.css">
 </head>
 
 <body>

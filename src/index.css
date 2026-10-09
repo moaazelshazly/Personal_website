@@ -10,12 +10,22 @@
   color-scheme: dark;
 }
 
+[data-theme="light"],
+:root.light {
+  color-scheme: light;
+}
+
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
 body {
   margin: 0;
   padding: 0;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 #root {

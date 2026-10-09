@@ -1,5 +1,6 @@
 /* ==========================================================================
    HydrateFallback - Minimalist Welcome Screen
+   Supports Dynamic Dark & Light Themes
    ========================================================================== */
 
 .welcome-simple-screen {
@@ -9,8 +10,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #08090a;
-  color: #f7f8f8;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   opacity: 1;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -30,7 +31,7 @@
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(94, 106, 210, 0.15) 0%, rgba(8, 9, 10, 0) 70%);
+  background: radial-gradient(circle, var(--hero-glow-1, rgba(94, 106, 210, 0.15)) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -53,9 +54,9 @@
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  background: #121314;
+  border: 1px solid var(--color-border-translucent-strong);
+  box-shadow: var(--shadow-medium);
+  background: var(--color-bg-level-1);
 }
 
 .welcome-simple-avatar img {
@@ -71,7 +72,7 @@
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #8a8f98;
+  color: var(--color-text-tertiary);
   margin-bottom: 8px;
 }
 
@@ -79,13 +80,13 @@
   font-size: 26px;
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--color-text-primary);
   margin: 0 0 6px 0;
 }
 
 .welcome-simple-role {
   font-size: 13px;
-  color: #8a8f98;
+  color: var(--color-text-tertiary);
   margin: 0 0 20px 0;
   font-weight: 400;
 }
@@ -97,16 +98,16 @@
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.05em;
-  color: #62666d;
+  color: var(--color-text-quaternary);
   cursor: pointer;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   transition: color 0.2s ease, background 0.2s ease;
 }
 
 .welcome-simple-skip:hover {
-  color: #d0d6e0;
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-primary);
+  background: var(--color-bg-translucent-hover);
 }
 
 @keyframes welcomeFadeIn {

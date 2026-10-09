@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router';
 import { CommandIcon, MenuIcon, CloseIcon, GithubIcon, LinkedinIcon } from './Icons';
+import { ThemeToggle } from './ThemeToggle';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface NavbarProps {
@@ -72,6 +73,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
             <span className="status-label">Available for work</span>
           </div>
 
+          {/* Theme Switcher Toggle */}
+          <ThemeToggle />
+
           {/* Command Menu Button */}
           <button
             type="button"
@@ -139,6 +143,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
               ))}
             </ul>
             <div className="mobile-drawer-footer">
+              <div className="mobile-theme-row">
+                <span className="mobile-theme-label">Theme</span>
+                <ThemeToggle variant="segmented" />
+              </div>
               <div className="availability-badge mobile-badge">
                 <span className="status-dot-pulse" />
                 <span className="status-label">{PORTFOLIO_DATA.personal.statusBadge}</span>
@@ -158,3 +166,4 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
     </header>
   );
 };
+

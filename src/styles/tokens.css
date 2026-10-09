@@ -1,9 +1,10 @@
 /* ==========================================================================
    Design Tokens - Sourced from Linear Design Language (DESIGN.md)
+   Supports Dark and Light Theme Modes
    ========================================================================== */
 
 :root {
-  /* Surfaces & Backgrounds */
+  /* Surfaces & Backgrounds (Dark Default) */
   --color-bg-primary: #08090a;
   --color-bg-level-0: #08090a;
   --color-bg-level-1: #0f1011;
@@ -56,8 +57,18 @@
 
   /* Header & Navigation */
   --header-bg: rgba(8, 9, 10, 0.75);
+  --header-bg-scrolled: rgba(8, 9, 10, 0.92);
   --header-border: rgba(255, 255, 255, 0.07);
+  --header-border-scrolled: rgba(255, 255, 255, 0.1);
   --header-blur: 16px;
+
+  /* Theme Visual Effects */
+  --hero-glow-1: rgba(94, 106, 210, 0.12);
+  --hero-glow-2: rgba(113, 112, 255, 0.06);
+  --grid-dot-color: rgba(255, 255, 255, 0.04);
+  --code-bg: #0c0d10;
+  --code-border: rgba(255, 255, 255, 0.06);
+  --console-body-bg: linear-gradient(180deg, #0e0f11 0%, #0a0b0d 100%);
 
   /* Fonts */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -72,7 +83,7 @@
   --radius-2xl: 16px;
   --radius-full: 9999px;
 
-  /* Shadows (Subtle, crisp, avoiding generic heavy blur) */
+  /* Shadows (Subtle, crisp Linear dark shadows) */
   --shadow-low: 0px 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-medium: 0px 4px 20px rgba(0, 0, 0, 0.35);
   --shadow-high: 0px 8px 32px rgba(0, 0, 0, 0.5);
@@ -88,4 +99,80 @@
   /* Max Widths */
   --container-max-width: 1160px;
   --prose-max-width: 640px;
+}
+
+/* ==========================================================================
+   Linear Light Mode Tokens
+   ========================================================================== */
+[data-theme="light"],
+:root.light {
+  /* Surfaces & Backgrounds */
+  --color-bg-primary: #ffffff;
+  --color-bg-level-0: #ffffff;
+  --color-bg-level-1: #f8f9fa;
+  --color-bg-level-2: #f1f3f5;
+  --color-bg-level-3: #e9ecef;
+  --color-bg-panel: #ffffff;
+  --color-bg-secondary: #f4f5f8;
+  --color-bg-tertiary: #ebedf0;
+  --color-bg-quaternary: #e2e5e9;
+  --color-bg-translucent: rgba(0, 0, 0, 0.03);
+  --color-bg-translucent-hover: rgba(0, 0, 0, 0.06);
+  --color-bg-translucent-active: rgba(0, 0, 0, 0.09);
+
+  /* Borders & Hairlines */
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+  --color-border-tertiary: #9ca3af;
+  --color-border-translucent: rgba(0, 0, 0, 0.07);
+  --color-border-translucent-strong: rgba(0, 0, 0, 0.12);
+  --color-border-translucent-hover: rgba(0, 0, 0, 0.20);
+  --border-hairline: 1px;
+
+  /* Typography Colors */
+  --color-text-primary: #0f1115;
+  --color-text-secondary: #3c4049;
+  --color-text-tertiary: #6b7280;
+  --color-text-quaternary: #9ca3af;
+
+  /* Accent & Interactive */
+  --color-brand-bg: #5e6ad2;
+  --color-brand-text: #ffffff;
+  --color-indigo: #5e6ad2;
+  --color-accent: #5e6ad2;
+  --color-accent-hover: #4d58be;
+  --color-accent-tint: #eef0fc;
+  --color-link-primary: #5e6ad2;
+  --color-link-hover: #3d4699;
+  --focus-ring-color: #5e69d1;
+
+  /* Status Colors */
+  --color-green: #16a34a;
+  --color-green-tint: rgba(22, 163, 74, 0.12);
+  --color-yellow: #d97706;
+  --color-yellow-tint: rgba(217, 119, 6, 0.12);
+  --color-red: #dc2626;
+  --color-red-tint: rgba(220, 38, 38, 0.12);
+  --color-teal: #0d9488;
+
+  /* Header & Navigation */
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --header-bg-scrolled: rgba(255, 255, 255, 0.96);
+  --header-border: rgba(0, 0, 0, 0.08);
+  --header-border-scrolled: rgba(0, 0, 0, 0.12);
+
+  /* Theme Visual Effects */
+  --hero-glow-1: rgba(94, 106, 210, 0.08);
+  --hero-glow-2: rgba(113, 112, 255, 0.04);
+  --grid-dot-color: rgba(0, 0, 0, 0.06);
+  --code-bg: #f8f9fb;
+  --code-border: #e2e4e8;
+  --console-body-bg: #ffffff;
+
+  /* Shadows (Crisp Linear Light Shadows) */
+  --shadow-low: 0px 1px 3px rgba(0, 0, 0, 0.06), 0px 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0px 4px 16px rgba(0, 0, 0, 0.07), 0px 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-high: 0px 12px 32px rgba(0, 0, 0, 0.10), 0px 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0px 12px 28px rgba(0, 0, 0, 0.09), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --shadow-inset-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }

@@ -1,7 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
-import { CommandIcon, ArrowRightIcon, GithubIcon, LinkedinIcon, CopyIcon, CheckIcon, CloseIcon } from './Icons';
+import { useTheme } from '../context';
+import {
+  CommandIcon,
+  ArrowRightIcon,
+  GithubIcon,
+  LinkedinIcon,
+  CopyIcon,
+  CheckIcon,
+  CloseIcon,
+  SunIcon,
+  MoonIcon,
+  MonitorIcon
+} from './Icons';
 
 interface CommandMenuProps {
   isOpen: boolean;
@@ -23,6 +35,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
   const [copiedEmail, setCopiedEmail] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { theme, themeMode, toggleTheme, setTheme, setThemeMode } = useTheme();
 
   useEffect(() => {
     if (isOpen) {
@@ -126,6 +139,50 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       }
     })),
     // Actions & Social
+    {
+      id: 'act-toggle-theme',
+      category: 'Actions',
+      title: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+      subtitle: `Currently active: ${theme === 'dark' ? 'Dark' : 'Light'} theme (click to switch)`,
+      icon: theme === 'dark' ? <SunIcon size={14} /> : <MoonIcon size={14} />,
+      action: () => {
+        toggleTheme();
+        onClose();
+      }
+    },
+    {
+      id: 'act-theme-light',
+      category: 'Actions',
+      title: 'Set Theme: Light Mode',
+      subtitle: 'Crisp, high-contrast Linear light theme',
+      icon: <SunIcon size={14} />,
+      action: () => {
+        setTheme('light');
+        onClose();
+      }
+    },
+    {
+      id: 'act-theme-dark',
+      category: 'Actions',
+      title: 'Set Theme: Dark Mode',
+      subtitle: 'Sleek, deep Linear dark theme',
+      icon: <MoonIcon size={14} />,
+      action: () => {
+        setTheme('dark');
+        onClose();
+      }
+    },
+    {
+      id: 'act-theme-system',
+      category: 'Actions',
+      title: 'Set Theme: System Preference',
+      subtitle: `Automatically match OS display settings (${themeMode === 'system' ? 'currently active' : 'inactive'})`,
+      icon: <MonitorIcon size={14} />,
+      action: () => {
+        setThemeMode('system');
+        onClose();
+      }
+    },
     {
       id: 'act-copy-email',
       category: 'Actions',
