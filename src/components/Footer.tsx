@@ -82,9 +82,9 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Colophon Bar */}
         <div className="footer-colophon">
-          <span className="colophon-text">
+          {/* <span className="colophon-text">
             Designed adhering to the Linear Design System tokens. Built with React 19, TypeScript, and modern CSS variables.
-          </span>
+          </span> */}
           <span className="colophon-build">v2.5.0-prod</span>
         </div>
       </div>
