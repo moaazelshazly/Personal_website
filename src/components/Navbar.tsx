@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router';
-import { CommandIcon, MenuIcon, CloseIcon, GithubIcon, LinkedinIcon } from './Icons';
+import { CommandIcon, MenuIcon, CloseIcon, GithubIcon, LinkedinIcon, FileTextIcon } from './Icons';
 import { ThemeToggle } from './ThemeToggle';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
@@ -109,6 +109,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
             >
               <LinkedinIcon size={16} />
             </a>
+            <a
+              href={PORTFOLIO_DATA.personal.resumeUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="See My Resume"
+              title="See My Resume"
+              className="social-icon-btn"
+            >
+              <FileTextIcon size={16} />
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -157,6 +167,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
                 </a>
                 <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="mobile-social-pill">
                   <LinkedinIcon size={16} /> LinkedIn
+                </a>
+                <a href={PORTFOLIO_DATA.personal.resumeUrl} target="_blank" rel="noreferrer" className="mobile-social-pill">
+                  <FileTextIcon size={16} /> See Resume
                 </a>
               </div>
             </div>

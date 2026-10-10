@@ -12,7 +12,8 @@ import {
   CloseIcon,
   SunIcon,
   MoonIcon,
-  MonitorIcon
+  MonitorIcon,
+  FileTextIcon
 } from './Icons';
 
 interface CommandMenuProps {
@@ -210,6 +211,17 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       icon: <LinkedinIcon size={14} />,
       action: () => {
         window.open(PORTFOLIO_DATA.personal.linkedin, '_blank');
+        onClose();
+      }
+    },
+    {
+      id: 'act-resume',
+      category: 'Social',
+      title: 'See My Resume',
+      subtitle: 'Google Drive Document',
+      icon: <FileTextIcon size={14} />,
+      action: () => {
+        window.open(PORTFOLIO_DATA.personal.resumeUrl, '_blank');
         onClose();
       }
     }

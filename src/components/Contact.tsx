@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFetcher } from 'react-router';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
-import { MailIcon, CopyIcon, CheckIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon } from './Icons';
+import { MailIcon, CopyIcon, CheckIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon } from './Icons';
 
 interface ContactProps {
   personal?: typeof PORTFOLIO_DATA.personal;
@@ -125,6 +125,16 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
                   >
                     <LinkedinIcon size={15} />
                     <span>LinkedIn</span>
+                    <ArrowUpRightIcon size={11} />
+                  </a>
+                  <a
+                    href={personal.resumeUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="contact-social-btn"
+                  >
+                    <FileTextIcon size={15} />
+                    <span>See Resume</span>
                     <ArrowUpRightIcon size={11} />
                   </a>
                 </div>

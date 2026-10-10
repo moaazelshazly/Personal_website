@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
-import { GithubIcon, LinkedinIcon, ArrowUpRightIcon } from './Icons';
+import { GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon } from './Icons';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -63,6 +63,16 @@ export const Footer: React.FC = () => {
               >
                 <LinkedinIcon size={14} />
                 <span>LinkedIn</span>
+                <ArrowUpRightIcon size={11} />
+              </a>
+              <a
+                href={PORTFOLIO_DATA.personal.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="footer-social-link"
+              >
+                <FileTextIcon size={14} />
+                <span>See Resume</span>
                 <ArrowUpRightIcon size={11} />
               </a>
             </div>

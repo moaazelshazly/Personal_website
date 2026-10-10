@@ -59,7 +59,7 @@ export const PORTFOLIO_DATA = {
     publicReposCount: 4,
     linkedin: "https://www.linkedin.com/in/moaaz-elshazly-625233358",
     twitter: "https://x.com/moazelshazly55",
-    resumeUrl: "#contact",
+    resumeUrl: "https://drive.google.com/file/d/16omyvVwcIHoGDtfjArk11kBUcll_PQD8/view?usp=drive_link",
     heroConsole: {
       framework: "React 19 + TypeScript",
       architecture: "Clean Component Systems",

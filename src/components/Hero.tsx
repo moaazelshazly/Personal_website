@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { ArrowRightIcon, MailIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon } from './Icons';
+import { ArrowRightIcon, MailIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon } from './Icons';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { InteractiveHeroCard } from './InteractiveHeroCard';
 
@@ -120,6 +120,18 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
               >
                 <LinkedinIcon size={16} />
                 <span>LinkedIn</span>
+                <ArrowUpRightIcon size={12} className="external-arrow" />
+              </a>
+
+              <a
+                href={personal.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="social-pill-btn"
+                title="See My Resume"
+              >
+                <FileTextIcon size={16} />
+                <span>See My Resume</span>
                 <ArrowUpRightIcon size={12} className="external-arrow" />
               </a>
             </div>
