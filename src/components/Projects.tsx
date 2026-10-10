@@ -30,7 +30,7 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
   const [lastRefreshedAt, setLastRefreshedAt] = useState<string>('Live');
   const [activeProjectTab, setActiveProjectTab] = useState<Record<string, 'overview' | 'problem' | 'tech' | 'github'>>({});
 
-  const categories = ['All', 'Frontend', 'Performance', 'Full Stack'];
+  const categories = ['All', ...Array.from(new Set(projectsList.map(p => p.category)))];
 
   const filteredProjects = filter === 'All'
     ? projectsList

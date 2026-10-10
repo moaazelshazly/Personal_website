@@ -81,12 +81,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
             type="button"
             className="command-trigger-btn"
             onClick={onOpenCommand}
-            aria-label="Open command palette (Ctrl+K)"
+            aria-label="Open command palette (Ctrl+K or ⌘K)"
             title="Press ⌘K or Ctrl+K to open"
           >
             <CommandIcon size={14} />
             <span className="cmd-text">Menu</span>
-            <kbd className="cmd-kbd">⌘K</kbd>
+            <kbd className="cmd-kbd">
+              {typeof navigator !== 'undefined' && /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent) ? '⌘K' : 'Ctrl+K'}
+            </kbd>
           </button>
 
           {/* Social Quick Links */}

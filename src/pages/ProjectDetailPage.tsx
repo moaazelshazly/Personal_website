@@ -268,7 +268,7 @@ export const ProjectDetailPage: React.FC = () => {
             </div>
 
             {/* Next Project Teaser */}
-            {nextProject && (
+            {nextProject && nextProject.id !== project.id && (
               <div className="next-project-card">
                 <span className="next-label">Next Project</span>
                 <NavLink to={`/projects/${nextProject.id}`} className="next-link">

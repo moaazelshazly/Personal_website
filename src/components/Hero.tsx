@@ -30,7 +30,7 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
             title="View Moaaz Elshazly's GitHub Profile"
           >
             <GithubIcon size={13} />
-            <span>@moaazelshazly · {personal.publicReposCount || 4} Repos</span>
+            <span>@moaazelshazly · {personal.publicReposCount || PORTFOLIO_DATA.projects.length} Repos</span>
             <span className="live-dot-green" />
           </a>
         </div>

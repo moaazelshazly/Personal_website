@@ -12,20 +12,13 @@ export const Skills: React.FC<SkillsProps> = ({ skills = PORTFOLIO_DATA.skills }
   const categories = ['All', ...skills.map(s => s.title)];
 
   const getCategoryIcon = (title: string) => {
-    switch (title) {
-      case 'Frontend':
-        return <CodeIcon size={16} />;
-      case 'Backend':
-        return <ServerIcon size={16} />;
-      case 'Programming':
-        return <CpuIcon size={16} />;
-      case 'UI/UX':
-        return <PaletteIcon size={16} />;
-      case 'Tools':
-        return <SlidersIcon size={16} />;
-      default:
-        return <CodeIcon size={16} />;
-    }
+    const t = title.toLowerCase();
+    if (t.includes('frontend')) return <CodeIcon size={16} />;
+    if (t.includes('backend') || t.includes('api')) return <ServerIcon size={16} />;
+    if (t.includes('programming') || t.includes('algorithm')) return <CpuIcon size={16} />;
+    if (t.includes('ui') || t.includes('ux') || t.includes('design')) return <PaletteIcon size={16} />;
+    if (t.includes('tool') || t.includes('workflow')) return <SlidersIcon size={16} />;
+    return <CodeIcon size={16} />;
   };
 
   const filteredCategories = selectedGroup === 'All'

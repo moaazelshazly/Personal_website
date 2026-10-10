@@ -23,6 +23,11 @@ export const RootLayout: React.FC = () => {
     <div className="portfolio-app-root">
       <ScrollRestoration />
 
+      {/* Accessible Skip Link for Keyboard Users */}
+      <a href="#main-content" className="skip-to-content-link">
+        Skip to main content
+      </a>
+
       {/* Navigation */}
       <Navbar onOpenCommand={() => setIsCommandOpen(true)} />
 

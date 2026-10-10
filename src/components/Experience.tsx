@@ -20,7 +20,7 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
         {/* Section Header */}
         <div className="section-header">
           <div className="section-tag">
-            <span className="tag-mono">04 // TRAJECTORY</span>
+            <span className="tag-mono">03 // TRAJECTORY</span>
           </div>
           <h2 className="section-title">Experience & Education</h2>
           <p className="section-subtitle">

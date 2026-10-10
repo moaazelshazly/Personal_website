@@ -8,6 +8,7 @@ import {
   GithubIcon,
   ExternalLinkIcon
 } from './Icons';
+import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const InteractiveHeroCard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'metrics' | 'tokens' | 'spec' | 'github'>('metrics');
@@ -121,7 +122,7 @@ export const InteractiveHeroCard: React.FC = () => {
                 <span className="metric-label">GitHub Telemetry</span>
                 <span className="metric-tag tag-indigo">REST API v3</span>
               </div>
-              <div className="metric-value">4<span className="metric-unit">Live Repos</span></div>
+              <div className="metric-value">{PORTFOLIO_DATA.personal.publicReposCount || PORTFOLIO_DATA.projects.length}<span className="metric-unit">Live Repos</span></div>
               <div className="metric-desc">Dynamic sync with GitHub Personal Access Token.</div>
             </div>
           </div>
@@ -133,7 +134,7 @@ export const InteractiveHeroCard: React.FC = () => {
               <div className="profile-bar-left">
                 <span className="profile-dot-live" />
                 <span className="profile-handle">github.com/moaazelshazly</span>
-                <span className="profile-badge-pill">4 Public Repos</span>
+                <span className="profile-badge-pill">{PORTFOLIO_DATA.personal.publicReposCount || PORTFOLIO_DATA.projects.length} Public Repos</span>
               </div>
               <a
                 href="https://github.com/moaazelshazly"

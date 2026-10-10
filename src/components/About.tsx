@@ -17,7 +17,7 @@ export const About: React.FC<AboutProps> = ({
         {/* Section Header */}
         <div className="section-header">
           <div className="section-tag">
-            <span className="tag-mono">01 // OVERVIEW</span>
+            <span className="tag-mono">04 // BACKGROUND</span>
           </div>
           <h2 className="section-title">About &amp; Engineering Focus</h2>
           <p className="section-subtitle">
@@ -104,7 +104,7 @@ export const About: React.FC<AboutProps> = ({
                 </div>
                 <div className="status-row">
                   <span className="row-key">GitHub Repos:</span>
-                  <span className="row-val green-val">{personal.publicReposCount || 4} Public Repositories</span>
+                  <span className="row-val green-val">{personal.publicReposCount || PORTFOLIO_DATA.projects.length} Public Repositories</span>
                 </div>
                 <div className="status-row">
                   <span className="row-key">Availability:</span>

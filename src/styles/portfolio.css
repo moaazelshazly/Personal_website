@@ -68,6 +68,26 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+.skip-to-content-link {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background-color: var(--color-indigo);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 13px;
+  text-decoration: none;
+  box-shadow: var(--shadow-high);
+  transition: top var(--transition-fast);
+}
+
+.skip-to-content-link:focus {
+  top: 16px;
+}
+
 code,
 kbd,
 pre {
@@ -2604,6 +2624,8 @@ pre {
 .cmd-results-list {
   max-height: 320px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
   padding: 8px;
 }
 
@@ -2615,18 +2637,28 @@ pre {
 }
 
 .cmd-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+  transition:
+    background 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, background;
 }
 
 .cmd-item:hover,
 .cmd-item.selected {
-  background-color: rgba(255, 255, 255, 0.07);
+  background: linear-gradient(90deg, rgba(94, 106, 210, 0.16) 0%, rgba(255, 255, 255, 0.04) 100%);
+  border-color: rgba(94, 106, 210, 0.35);
+  transform: translateX(4px);
+  box-shadow: inset 2.5px 0 0 var(--color-indigo), 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 .cmd-item-icon {
@@ -2634,10 +2666,12 @@ pre {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
 }
 
 .cmd-item.selected .cmd-item-icon {
   color: var(--color-brand-bg);
+  transform: scale(1.15);
 }
 
 .cmd-item-content {
@@ -2648,11 +2682,21 @@ pre {
   font-size: 13.5px;
   font-weight: 500;
   color: var(--color-text-primary);
+  transition: color 0.18s ease;
+}
+
+.cmd-item.selected .cmd-item-title {
+  color: #ffffff;
 }
 
 .cmd-item-sub {
   font-size: 11.5px;
   color: var(--color-text-tertiary);
+  transition: color 0.18s ease;
+}
+
+.cmd-item.selected .cmd-item-sub {
+  color: var(--color-text-secondary);
 }
 
 .cmd-item-badge {
@@ -2662,6 +2706,43 @@ pre {
   background-color: rgba(255, 255, 255, 0.04);
   padding: 2px 6px;
   border-radius: var(--radius-xs);
+  border: 1px solid transparent;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-item.selected .cmd-item-badge {
+  color: var(--color-brand-bg);
+  background-color: rgba(94, 106, 210, 0.14);
+  border-color: rgba(94, 106, 210, 0.35);
+  transform: scale(1.05);
+}
+
+.cmd-group-heading {
+  padding: 10px 12px 4px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--color-text-quaternary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  user-select: none;
+}
+
+.cmd-input-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-quaternary);
+  cursor: pointer;
+  margin-right: 4px;
+  transition: all var(--transition-fast);
+}
+
+.cmd-input-clear-btn:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-translucent-hover);
 }
 
 .cmd-footer {
@@ -2670,10 +2751,22 @@ pre {
   padding: 8px 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--color-text-quaternary);
+}
+
+.cmd-hints-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cmd-count {
+  font-size: 10.5px;
+  color: var(--color-text-tertiary);
+  font-family: var(--font-mono);
 }
 
 .cmd-hint {
@@ -4311,12 +4404,24 @@ video {
 
   .cmd-item:hover,
   .cmd-item.selected {
-    background-color: var(--color-bg-level-1);
+    background: linear-gradient(90deg, rgba(94, 106, 210, 0.12) 0%, rgba(0, 0, 0, 0.03) 100%);
+    border-color: rgba(94, 106, 210, 0.3);
+    box-shadow: inset 2.5px 0 0 var(--color-indigo), 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .cmd-item.selected .cmd-item-title {
+    color: var(--color-text-primary);
   }
 
   .cmd-item-badge {
     background-color: var(--color-bg-level-2);
     color: var(--color-text-secondary);
+  }
+
+  .cmd-item.selected .cmd-item-badge {
+    background-color: rgba(94, 106, 210, 0.12);
+    border-color: rgba(94, 106, 210, 0.3);
+    color: var(--color-indigo);
   }
 
   .cmd-footer {

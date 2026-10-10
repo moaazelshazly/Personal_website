@@ -9,7 +9,18 @@ export const WelcomeHydrateFallback: React.FC = () => {
     const unsubscribe = hydrationController.subscribe((newState) => {
       setState(newState);
     });
-    return () => unsubscribe();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+        hydrationController.skip();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
