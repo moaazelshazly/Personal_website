@@ -40,10 +40,12 @@ export const RootLayout: React.FC = () => {
       <Footer />
 
       {/* Interactive Command Palette */}
-      <CommandMenu
-        isOpen={isCommandOpen}
-        onClose={() => setIsCommandOpen(false)}
-      />
+      {isCommandOpen && (
+        <CommandMenu
+          isOpen={isCommandOpen}
+          onClose={() => setIsCommandOpen(false)}
+        />
+      )}
     </div>
   );
 };

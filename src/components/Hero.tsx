@@ -50,6 +50,10 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
                 src={personal.avatarUrl || "https://avatars.githubusercontent.com/u/181676567?v=4"}
                 alt={personal.name}
                 className="hero-avatar-img"
+                width={48}
+                height={48}
+                decoding="async"
+                fetchPriority="high"
               />
               <span className="hero-avatar-gh-badge" aria-hidden="true">
                 <GithubIcon size={11} />

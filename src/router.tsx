@@ -1,12 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import { RootLayout } from './pages/RootLayout';
 import { HomePage, homeLoader } from './pages/HomePage';
-import { ProjectsPage, projectsLoader } from './pages/ProjectsPage';
-import { ProjectDetailPage, projectDetailLoader } from './pages/ProjectDetailPage';
-import { SkillsPage, skillsLoader } from './pages/SkillsPage';
-import { ExperiencePage, experienceLoader } from './pages/ExperiencePage';
-import { AboutPage, aboutLoader } from './pages/AboutPage';
-import { ContactPage, contactLoader } from './pages/ContactPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { contactAction } from './actions/contactAction';
 import { WelcomeHydrateFallback } from './components/WelcomeHydrateFallback';
@@ -27,33 +21,45 @@ export const router = createBrowserRouter(
         },
         {
           path: 'projects',
-          element: <ProjectsPage />,
-          loader: projectsLoader,
+          lazy: async () => {
+            const { ProjectsPage, projectsLoader } = await import('./pages/ProjectsPage');
+            return { Component: ProjectsPage, loader: projectsLoader };
+          },
         },
         {
           path: 'projects/:projectId',
-          element: <ProjectDetailPage />,
-          loader: projectDetailLoader,
+          lazy: async () => {
+            const { ProjectDetailPage, projectDetailLoader } = await import('./pages/ProjectDetailPage');
+            return { Component: ProjectDetailPage, loader: projectDetailLoader };
+          },
         },
         {
           path: 'skills',
-          element: <SkillsPage />,
-          loader: skillsLoader,
+          lazy: async () => {
+            const { SkillsPage, skillsLoader } = await import('./pages/SkillsPage');
+            return { Component: SkillsPage, loader: skillsLoader };
+          },
         },
         {
           path: 'experience',
-          element: <ExperiencePage />,
-          loader: experienceLoader,
+          lazy: async () => {
+            const { ExperiencePage, experienceLoader } = await import('./pages/ExperiencePage');
+            return { Component: ExperiencePage, loader: experienceLoader };
+          },
         },
         {
           path: 'about',
-          element: <AboutPage />,
-          loader: aboutLoader,
+          lazy: async () => {
+            const { AboutPage, aboutLoader } = await import('./pages/AboutPage');
+            return { Component: AboutPage, loader: aboutLoader };
+          },
         },
         {
           path: 'contact',
-          element: <ContactPage />,
-          loader: contactLoader,
+          lazy: async () => {
+            const { ContactPage, contactLoader } = await import('./pages/ContactPage');
+            return { Component: ContactPage, loader: contactLoader };
+          },
           action: contactAction,
         },
       ],

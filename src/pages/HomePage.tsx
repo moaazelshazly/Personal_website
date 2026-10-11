@@ -7,6 +7,11 @@ import { hydrationController } from '../TS/hydrationController';
 import { ArrowRightIcon, CodeIcon, LayersIcon, BriefcaseIcon, CpuIcon, MailIcon, CheckIcon } from '../components/Icons';
 
 export async function homeLoader() {
+  const fallbackData = {
+    projects: PORTFOLIO_DATA.projects,
+    profile: null,
+  };
+
   const dataPromise = (async () => {
     const [projects, profile] = await Promise.all([
       fetchPortfolioProjects(),
@@ -15,7 +20,9 @@ export async function homeLoader() {
     return { projects, profile };
   })();
 
-  const { projects, profile } = await hydrationController.coordinateInitialLoad(dataPromise);
+  const result = await hydrationController.coordinateInitialLoad(dataPromise, fallbackData);
+  const projects = result?.projects || PORTFOLIO_DATA.projects;
+  const profile = result?.profile ?? null;
 
   return {
     portfolio: {
@@ -35,7 +42,7 @@ export async function homeLoader() {
 
 export const HomePage: React.FC = () => {
   const { portfolio } = useLoaderData<typeof homeLoader>();
-  const featuredProject = portfolio.projects[0];
+  const featuredProject = portfolio.projects?.[0] || PORTFOLIO_DATA.projects[0];
 
   const exploreCards = [
     {

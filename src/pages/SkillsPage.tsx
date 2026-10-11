@@ -5,8 +5,12 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { hydrationController } from '../TS/hydrationController';
 
 export async function skillsLoader() {
-  const dataPromise = Promise.resolve({ skills: PORTFOLIO_DATA.skills });
-  return await hydrationController.coordinateInitialLoad(dataPromise);
+  const fallbackData = { skills: PORTFOLIO_DATA.skills };
+  const dataPromise = Promise.resolve(fallbackData);
+  const result = await hydrationController.coordinateInitialLoad(dataPromise, fallbackData);
+  return {
+    skills: result?.skills || PORTFOLIO_DATA.skills,
+  };
 }
 
 export const SkillsPage: React.FC = () => {

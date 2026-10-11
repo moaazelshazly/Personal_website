@@ -41,14 +41,34 @@ export interface GitHubUserRaw {
   updated_at: string;
 }
 
-// In-memory cache to prevent redundant API calls during client navigation
+// In-memory & sessionStorage cache to prevent redundant API calls during client navigation
 let cachedProjects: Project[] | null = null;
 let cachedProfile: GitHubUserRaw | null = null;
 let lastFetchTime = 0;
-const CACHE_TTL_MS = 60 * 1000; // 1 minute fresh cache
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes fresh cache
+const STORAGE_KEY_PROJECTS = 'portfolio_cached_projects_v2';
+const STORAGE_KEY_PROFILE = 'portfolio_cached_profile_v2';
+
+function readSessionCache<T>(key: string): { data: T; timestamp: number } | null {
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function writeSessionCache<T>(key: string, data: T): void {
+  try {
+    sessionStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+  } catch {
+    // Ignore storage quota errors
+  }
+}
 
 /**
- * Fetch all repositories for moaazelshazly
+ * Fetch all repositories for moaazelshazly with timeout protection
  */
 export async function fetchGitHubRepos(): Promise<GitHubRepoRaw[]> {
   const url = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`;
@@ -61,13 +81,24 @@ export async function fetchGitHubRepos(): Promise<GitHubRepoRaw[]> {
       headers.Authorization = `token ${GITHUB_TOKEN}`;
     }
 
-    const res = await fetch(url, { headers });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    const res = await fetch(url, { headers, signal: controller.signal }).finally(() => {
+      clearTimeout(timeoutId);
+    });
 
     if (!res.ok) {
       // If token rate limits or has issues, try public fallback
+      const fallbackController = new AbortController();
+      const fallbackTimeoutId = setTimeout(() => fallbackController.abort(), 4000);
       const fallbackRes = await fetch(url, {
         headers: { Accept: 'application/vnd.github.v3+json' },
+        signal: fallbackController.signal,
+      }).finally(() => {
+        clearTimeout(fallbackTimeoutId);
       });
+
       if (fallbackRes.ok) {
         return (await fallbackRes.json()) as GitHubRepoRaw[];
       }
@@ -83,10 +114,18 @@ export async function fetchGitHubRepos(): Promise<GitHubRepoRaw[]> {
 }
 
 /**
- * Fetch GitHub user profile for moaazelshazly
+ * Fetch GitHub user profile for moaazelshazly with persistent caching & timeout
  */
 export async function fetchGitHubProfile(): Promise<GitHubUserRaw | null> {
-  if (cachedProfile && Date.now() - lastFetchTime < CACHE_TTL_MS) {
+  const now = Date.now();
+  if (cachedProfile && now - lastFetchTime < CACHE_TTL_MS) {
+    return cachedProfile;
+  }
+
+  // Check sessionStorage
+  const sessionItem = readSessionCache<GitHubUserRaw>(STORAGE_KEY_PROFILE);
+  if (sessionItem && now - sessionItem.timestamp < CACHE_TTL_MS) {
+    cachedProfile = sessionItem.data;
     return cachedProfile;
   }
 
@@ -100,21 +139,30 @@ export async function fetchGitHubProfile(): Promise<GitHubUserRaw | null> {
       headers.Authorization = `token ${GITHUB_TOKEN}`;
     }
 
-    const res = await fetch(url, { headers });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+    const res = await fetch(url, { headers, signal: controller.signal }).finally(() => {
+      clearTimeout(timeoutId);
+    });
 
     if (!res.ok) {
-      const fallbackRes = await fetch(url);
-      if (fallbackRes.ok) {
-        cachedProfile = (await fallbackRes.json()) as GitHubUserRaw;
+      if (sessionItem?.data) {
+        cachedProfile = sessionItem.data;
         return cachedProfile;
       }
       return null;
     }
 
     cachedProfile = (await res.json()) as GitHubUserRaw;
+    writeSessionCache(STORAGE_KEY_PROFILE, cachedProfile);
     return cachedProfile;
   } catch (err) {
     console.warn('Unable to fetch live GitHub profile:', err);
+    if (sessionItem?.data) {
+      cachedProfile = sessionItem.data;
+      return cachedProfile;
+    }
     return null;
   }
 }
@@ -244,9 +292,20 @@ function inferCategoryFromRepo(repo: GitHubRepoRaw): Project['category'] {
  * Main project fetcher used by React Router loaders and components
  */
 export async function fetchPortfolioProjects(forceRefresh = false): Promise<Project[]> {
-  const isCacheValid = cachedProjects && Date.now() - lastFetchTime < CACHE_TTL_MS && !forceRefresh;
-  if (isCacheValid && cachedProjects) {
+  const now = Date.now();
+  const isMemoryValid = cachedProjects && now - lastFetchTime < CACHE_TTL_MS && !forceRefresh;
+  if (isMemoryValid && cachedProjects) {
     return cachedProjects;
+  }
+
+  // Check sessionStorage
+  if (!forceRefresh) {
+    const sessionItem = readSessionCache<Project[]>(STORAGE_KEY_PROJECTS);
+    if (sessionItem && now - sessionItem.timestamp < CACHE_TTL_MS) {
+      cachedProjects = sessionItem.data;
+      lastFetchTime = sessionItem.timestamp;
+      return cachedProjects;
+    }
   }
 
   try {
@@ -254,6 +313,7 @@ export async function fetchPortfolioProjects(forceRefresh = false): Promise<Proj
     const enriched = enrichProjectsWithGitHubData(repos, PORTFOLIO_DATA.projects);
     cachedProjects = enriched;
     lastFetchTime = Date.now();
+    writeSessionCache(STORAGE_KEY_PROJECTS, enriched);
     return enriched;
   } catch (err) {
     console.error('Error in fetchPortfolioProjects:', err);

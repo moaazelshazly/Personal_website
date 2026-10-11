@@ -4,6 +4,12 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const WelcomeHydrateFallback: React.FC = () => {
   const [state, setState] = useState<HydrationState>(() => hydrationController.getState());
+  const [isSkipping, setIsSkipping] = useState(false);
+
+  const handleSkip = () => {
+    setIsSkipping(true);
+    hydrationController.skip();
+  };
 
   useEffect(() => {
     const unsubscribe = hydrationController.subscribe((newState) => {
@@ -12,7 +18,7 @@ export const WelcomeHydrateFallback: React.FC = () => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-        hydrationController.skip();
+        handleSkip();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -23,9 +29,11 @@ export const WelcomeHydrateFallback: React.FC = () => {
     };
   }, []);
 
+  const isExiting = state.isExiting || isSkipping;
+
   return (
     <div
-      className={`welcome-simple-screen ${state.isExiting ? 'exiting' : ''}`}
+      className={`welcome-simple-screen ${isExiting ? 'exiting' : ''}`}
       role="status"
       aria-live="polite"
       id="hydrate-fallback"
@@ -35,6 +43,10 @@ export const WelcomeHydrateFallback: React.FC = () => {
           <img
             src={PORTFOLIO_DATA.personal.avatarUrl}
             alt={PORTFOLIO_DATA.personal.name}
+            width={72}
+            height={72}
+            decoding="async"
+            fetchPriority="high"
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
@@ -48,7 +60,9 @@ export const WelcomeHydrateFallback: React.FC = () => {
         <button
           type="button"
           className="welcome-simple-skip"
-          onClick={() => hydrationController.skip()}
+          onClick={handleSkip}
+          disabled={isExiting}
+          aria-disabled={isExiting}
         >
           {state.isPageDataLoaded ? 'Enter' : 'Skip →'}
         </button>

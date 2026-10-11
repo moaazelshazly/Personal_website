@@ -5,8 +5,12 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { hydrationController } from '../TS/hydrationController';
 
 export async function experienceLoader() {
-  const dataPromise = Promise.resolve({ timeline: PORTFOLIO_DATA.timeline });
-  return await hydrationController.coordinateInitialLoad(dataPromise);
+  const fallbackData = { timeline: PORTFOLIO_DATA.timeline };
+  const dataPromise = Promise.resolve(fallbackData);
+  const result = await hydrationController.coordinateInitialLoad(dataPromise, fallbackData);
+  return {
+    timeline: result?.timeline || PORTFOLIO_DATA.timeline,
+  };
 }
 
 export const ExperiencePage: React.FC = () => {

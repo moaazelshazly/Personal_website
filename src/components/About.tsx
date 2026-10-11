@@ -73,6 +73,10 @@ export const About: React.FC<AboutProps> = ({
                   src={personal.avatarUrl || "https://avatars.githubusercontent.com/u/181676567?v=4"}
                   alt={personal.name}
                   className="about-avatar-img"
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="about-profile-meta">
                   <span className="about-profile-name">{personal.name}</span>
