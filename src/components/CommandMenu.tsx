@@ -14,7 +14,8 @@ import {
   SunIcon,
   MoonIcon,
   MonitorIcon,
-  FileTextIcon
+  FileTextIcon,
+  SearchIcon,
 } from './Icons';
 
 interface CommandMenuProps {
@@ -153,6 +154,18 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       }
     })),
     // Actions & Social
+    {
+      id: 'act-search-projects',
+      category: 'Actions',
+      title: 'Search & Filter Engineering Projects',
+      subtitle: `Explore ${liveProjects.length} repositories with live search, tech stack tags, and matrix view`,
+      keywords: ['projects', 'search', 'filter', 'matrix', 'tech', 'stack', 'repos'],
+      icon: <SearchIcon size={14} />,
+      action: () => {
+        navigateTo('/projects');
+        onClose();
+      }
+    },
     {
       id: 'act-toggle-theme',
       category: 'Actions',

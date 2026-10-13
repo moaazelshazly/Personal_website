@@ -6,7 +6,7 @@ import {
   LayersIcon,
   CpuIcon,
   GithubIcon,
-  ExternalLinkIcon
+  ExternalLinkIcon,
 } from './Icons';
 import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
 import { getLanguageColor } from '../TS/Fetcg';
@@ -255,6 +255,8 @@ export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projec
             </div>
           </div>
         )}
+
+
 
         {activeTab === 'spec' && (
           <div className="spec-interactive-panel">

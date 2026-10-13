@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router';
 import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
 import {
@@ -11,6 +11,11 @@ import {
   GitBranchIcon,
   ClockIcon,
   RefreshCwIcon,
+  SearchIcon,
+  CloseIcon,
+  GridIcon,
+  ListIcon,
+  Share2Icon,
 } from './Icons';
 import {
   formatGitHubDate,
@@ -26,15 +31,80 @@ interface ProjectsProps {
 export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = PORTFOLIO_DATA.projects }) => {
   const [projectsList, setProjectsList] = useState<Project[]>(initialProjects);
   const [filter, setFilter] = useState<string>('All');
+  const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<'featured' | 'stars' | 'updated' | 'alpha'>('featured');
+  const [viewMode, setViewMode] = useState<'detailed' | 'matrix'>('detailed');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<string>('Live');
   const [activeProjectTab, setActiveProjectTab] = useState<Record<string, 'overview' | 'problem' | 'tech' | 'github'>>({});
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === '/' &&
+        document.activeElement !== searchInputRef.current &&
+        !['input', 'textarea'].includes((document.activeElement?.tagName || '').toLowerCase())
+      ) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const popularTechs = [
+    'React 19',
+    'TypeScript',
+    'C++',
+    'Tailwind CSS',
+    'Vite',
+    'Algorithms',
+    'CSS Variables'
+  ];
 
   const categories = ['All', ...Array.from(new Set(projectsList.map(p => p.category)))];
 
-  const filteredProjects = filter === 'All'
-    ? projectsList
-    : projectsList.filter(p => p.category === filter);
+  const filteredProjects = projectsList
+    .filter((p) => {
+      if (filter !== 'All' && p.category !== filter) return false;
+      if (selectedTech && !p.technologies.some((t) => t.toLowerCase() === selectedTech.toLowerCase())) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        const matchesName = p.name.toLowerCase().includes(q);
+        const matchesTagline = p.tagline.toLowerCase().includes(q);
+        const matchesDesc = p.description.toLowerCase().includes(q);
+        const matchesProb = p.problemSolved.toLowerCase().includes(q);
+        const matchesTech = p.technologies.some((t) => t.toLowerCase().includes(q));
+        const matchesLang = (p.language || '').toLowerCase().includes(q);
+        const matchesCategory = p.category.toLowerCase().includes(q);
+        if (!matchesName && !matchesTagline && !matchesDesc && !matchesProb && !matchesTech && !matchesLang && !matchesCategory) {
+          return false;
+        }
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'stars') return (b.stars ?? 0) - (a.stars ?? 0);
+      if (sortBy === 'updated') return new Date(b.updatedAt || 0).getTime() - new Date(a.updatedAt || 0).getTime();
+      if (sortBy === 'alpha') return a.name.localeCompare(b.name);
+      return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+    });
+
+  const handleCopyProjectLink = (projectId: string, projectName: string) => {
+    const url = `${window.location.origin}/projects/${projectId}`;
+    navigator.clipboard.writeText(url);
+    setCopiedId(projectId);
+    setToastMessage(`Copied link to ${projectName}`);
+    setTimeout(() => {
+      setCopiedId(null);
+      setToastMessage(null);
+    }, 2200);
+  };
 
   const setTab = (projectId: string, tab: 'overview' | 'problem' | 'tech' | 'github') => {
     setActiveProjectTab(prev => ({ ...prev, [projectId]: tab }));
@@ -240,8 +310,76 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="projects-filter-bar">
+        {/* Advanced Discovery & Search Toolbar */}
+        <div className="projects-discovery-toolbar">
+          {/* Real-Time Search Box */}
+          <div className="projects-search-box">
+            <SearchIcon size={15} className="search-box-icon" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              className="projects-search-input"
+              placeholder="Search by name, tech (React 19, C++), or problem solved... ('/' to focus)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search repositories"
+            />
+            {searchQuery ? (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+              >
+                <CloseIcon size={13} />
+              </button>
+            ) : (
+              <kbd className="search-kbd-hint">/</kbd>
+            )}
+          </div>
+
+          {/* Sort Selector & View Mode Switcher */}
+          <div className="projects-toolbar-right">
+            <div className="projects-sort-wrapper">
+              <span className="sort-label">Sort:</span>
+              <select
+                className="projects-sort-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'featured' | 'stars' | 'updated' | 'alpha')}
+                aria-label="Sort projects"
+              >
+                <option value="featured">Featured First</option>
+                <option value="stars">Most Stars ★</option>
+                <option value="updated">Recently Updated</option>
+                <option value="alpha">Alphabetical (A–Z)</option>
+              </select>
+            </div>
+
+            <div className="projects-view-toggle" role="group" aria-label="Layout view mode">
+              <button
+                type="button"
+                className={`view-toggle-btn ${viewMode === 'detailed' ? 'active' : ''}`}
+                onClick={() => setViewMode('detailed')}
+                title="Detailed Case Study View"
+              >
+                <ListIcon size={14} />
+                <span className="view-toggle-text">Detailed</span>
+              </button>
+              <button
+                type="button"
+                className={`view-toggle-btn ${viewMode === 'matrix' ? 'active' : ''}`}
+                onClick={() => setViewMode('matrix')}
+                title="Compact Grid Matrix View"
+              >
+                <GridIcon size={14} />
+                <span className="view-toggle-text">Matrix</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Categories & Technology Filter Pills */}
+        <div className="projects-filters-container">
           <div className="filter-pill-group" role="tablist" aria-label="Project Categories">
             {categories.map((cat) => (
               <button
@@ -255,11 +393,51 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
               </button>
             ))}
           </div>
-          <span className="results-count">{filteredProjects.length} repositories displayed</span>
+
+          {/* Quick Tech Tag Filters */}
+          <div className="tech-filter-pills-row">
+            <span className="tech-filter-label">Tech:</span>
+            {popularTechs.map((tech) => {
+              const isSelected = selectedTech === tech;
+              return (
+                <button
+                  key={tech}
+                  type="button"
+                  className={`tech-chip-filter ${isSelected ? 'active' : ''}`}
+                  onClick={() => setSelectedTech(isSelected ? null : tech)}
+                >
+                  <span>{tech}</span>
+                </button>
+              );
+            })}
+            {(filter !== 'All' || selectedTech || searchQuery) && (
+              <button
+                type="button"
+                className="filter-reset-link"
+                onClick={() => {
+                  setFilter('All');
+                  setSelectedTech(null);
+                  setSearchQuery('');
+                }}
+              >
+                Reset filters
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Projects List */}
-        <div className="projects-collection">
+        <div className="projects-results-bar">
+          <span className="results-count">
+            {filteredProjects.length} {filteredProjects.length === 1 ? 'repository' : 'repositories'} matching
+            {filter !== 'All' ? ` in ${filter}` : ''}
+            {selectedTech ? ` using ${selectedTech}` : ''}
+            {searchQuery ? ` for "${searchQuery}"` : ''}
+          </span>
+        </div>
+
+        {/* Projects List: Detailed View */}
+        {viewMode === 'detailed' && filteredProjects.length > 0 && (
+          <div className="projects-collection">
           {filteredProjects.map((project: Project, index: number) => {
             const currentTab = activeProjectTab[project.id] || 'overview';
             const langColor = getLanguageColor(project.language);
@@ -444,6 +622,15 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
                         <ExternalLinkIcon size={14} />
                       </a>
                     )}
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => handleCopyProjectLink(project.id, project.name)}
+                      title="Copy direct link to this project"
+                    >
+                      {copiedId === project.id ? <CheckIcon size={13} /> : <Share2Icon size={13} />}
+                      <span className="btn-share-label">{copiedId === project.id ? 'Copied' : 'Share'}</span>
+                    </button>
                   </div>
                 </div>
 
@@ -485,6 +672,103 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
             );
           })}
         </div>
+        )}
+
+        {/* View Mode: Compact Grid Matrix */}
+        {viewMode === 'matrix' && filteredProjects.length > 0 && (
+          <div className="projects-matrix-grid">
+            {filteredProjects.map((project) => {
+              const langColor = getLanguageColor(project.language);
+              return (
+                <div key={project.id} className="project-matrix-card">
+                  <div className="matrix-card-top">
+                    <div className="matrix-badges">
+                      <span className="category-pill">{project.category}</span>
+                      {project.language && (
+                        <span className="language-indicator-pill">
+                          <span className="lang-dot" style={{ backgroundColor: langColor }} />
+                          <span>{project.language}</span>
+                        </span>
+                      )}
+                    </div>
+                    <div className="matrix-stars-badge" title="GitHub Stars">
+                      <StarIcon size={12} />
+                      <span>{project.stars ?? 0}</span>
+                    </div>
+                  </div>
+
+                  <h3 className="matrix-title">
+                    <Link to={`/projects/${project.id}`}>{project.name}</Link>
+                  </h3>
+                  <p className="matrix-tagline">{project.tagline}</p>
+
+                  <div className="matrix-tech-wrap">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <span key={tech} className="matrix-tech-tag">{tech}</span>
+                    ))}
+                  </div>
+
+                  <div className="matrix-card-footer">
+                    <Link to={`/projects/${project.id}`} className="btn btn-primary btn-sm">
+                      <span>Case Study</span>
+                      <ArrowRightIcon size={13} />
+                    </Link>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-secondary btn-sm"
+                      title="Open GitHub repository"
+                    >
+                      <GithubIcon size={13} />
+                      <span>Code</span>
+                    </a>
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => handleCopyProjectLink(project.id, project.name)}
+                      title="Copy direct share link"
+                    >
+                      {copiedId === project.id ? <CheckIcon size={13} /> : <Share2Icon size={13} />}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Empty State when no results match */}
+        {filteredProjects.length === 0 && (
+          <div className="projects-empty-state">
+            <div className="empty-state-icon">
+              <SearchIcon size={24} />
+            </div>
+            <h3 className="empty-state-title">No matching repositories found</h3>
+            <p className="empty-state-desc">
+              No projects match your active search or filters. Try adjusting your query or resetting filters.
+            </p>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => {
+                setFilter('All');
+                setSelectedTech(null);
+                setSearchQuery('');
+              }}
+            >
+              Reset All Filters
+            </button>
+          </div>
+        )}
+
+        {/* Floating Toast Notification */}
+        {toastMessage && (
+          <div className="project-toast-alert" role="status" aria-live="polite">
+            <CheckIcon size={14} className="toast-check" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
       </div>
     </section>
   );
