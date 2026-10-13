@@ -50,7 +50,7 @@ export const HomePage: React.FC = () => {
       title: 'Engineered Projects',
       tag: '01 // WORK',
       icon: <LayersIcon size={18} />,
-      desc: 'High-performance React apps, speed typing benchmark, and vanilla JS game with live GitHub repository sync.',
+      desc: 'PlayStation game store, high-performance React apps, typing engine, and C++ systems with live GitHub repository sync.',
       count: `${portfolio.projects.length} Repositories`
     },
     {
@@ -82,7 +82,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="home-route-view">
       {/* Hero Section */}
-      <Hero personal={portfolio.personal} />
+      <Hero personal={portfolio.personal} projects={portfolio.projects} />
 
       {/* Routed Gateway Navigation Section */}
       <section className="section-padding home-gateway-section">

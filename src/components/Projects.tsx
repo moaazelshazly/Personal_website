@@ -54,209 +54,138 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
   };
 
   const renderCodeSnippet = (project: Project) => {
-    const pId = project.id.toLowerCase();
+    const lang = (project.language || '').toLowerCase();
+    const repoIdentifier = project.repoFullName || `moaazelshazly/${project.id}`;
+    const compName = project.name
+      .replace(/[^a-zA-Z0-9]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join('') || 'Module';
+    const primaryTech = project.technologies[0] || project.language || 'TypeScript';
+    const techList = project.technologies.slice(0, 3).map((t) => `"${t}"`).join(', ');
 
-    if (pId.includes('website') || pId.includes('personal')) {
+    if (lang.includes('c++') || lang.includes('cpp')) {
+      const nsName = project.id.replace(/[-_]/g, '_');
       return (
         <div className="terminal-content">
           <div className="code-line">
             <span className="line-num">1</span>
-            <span className="code-kw">import</span> {'{'} <span className="code-ident">fetchPortfolioProjects</span> {'}'} <span className="code-kw">from</span> <span className="code-str">'./TS/Fetcg'</span>;
+            <span className="code-kw">#include</span> <span className="code-str">&lt;iostream&gt;</span>
           </div>
           <div className="code-line">
             <span className="line-num">2</span>
-            <span className="code-kw">export const</span> <span className="code-func">PortfolioEngine</span> = () =&gt; {'{'}
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">3</span>
-            <span className="code-kw">const</span> token = <span className="code-str">"env.VITE_GITHUB_TOKEN"</span>;
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">4</span>
-            <span className="code-kw">const</span> status = <span className="code-str">"Synced (200 OK)"</span>;
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">5</span>
-            <span className="code-kw">return</span> (
-          </div>
-          <div className="code-line indent-2">
-            <span className="line-num">6</span>
-            &lt;<span className="code-tag">LinearTheme</span> <span className="code-attr">contrast</span>=<span className="code-str">"AAA"</span>&gt;
-          </div>
-          <div className="code-line indent-3">
-            <span className="line-num">7</span>
-            &lt;<span className="code-tag">LiveGitHubStream</span> <span className="code-attr">user</span>=<span className="code-str">"{GITHUB_USERNAME}"</span> /&gt;
-          </div>
-          <div className="code-line indent-2">
-            <span className="line-num">8</span>
-            &lt;/<span className="code-tag">LinearTheme</span>&gt;
-          </div>
-          <div className="code-line">
-            <span className="line-num">9</span>
-            {'}'};
-          </div>
-        </div>
-      );
-    }
-
-    if (pId.includes('typing')) {
-      return (
-        <div className="terminal-content">
-          <div className="code-line">
-            <span className="line-num">1</span>
-            <span className="code-kw">import</span> {'{'} <span className="code-ident">useState</span>, <span className="code-ident">useEffect</span> {'}'} <span className="code-kw">from</span> <span className="code-str">'react'</span>;
-          </div>
-          <div className="code-line">
-            <span className="line-num">2</span>
-            <span className="code-kw">export const</span> <span className="code-func">TypingTelemetry</span> = () =&gt; {'{'}
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">3</span>
-            <span className="code-kw">const</span> [wpm, setWpm] = <span className="code-func">useState</span>(<span className="code-num">0</span>);
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">4</span>
-            <span className="code-kw">const</span> [acc, setAcc] = <span className="code-func">useState</span>(<span className="code-num">100</span>);
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">5</span>
-            <span className="code-kw">const</span> handleKeystroke = (e) =&gt; <span className="code-func">recordVelocity</span>(e);
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">6</span>
-            <span className="code-kw">return</span> (
-          </div>
-          <div className="code-line indent-2">
-            <span className="line-num">7</span>
-            &lt;<span className="code-tag">TelemetryHUD</span> <span className="code-attr">wpm</span>={'{wpm}'} <span className="code-attr">accuracy</span>={'{acc}'} /&gt;
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">8</span>
-            );
-          </div>
-          <div className="code-line">
-            <span className="line-num">9</span>
-            {'}'};
-          </div>
-        </div>
-      );
-    }
-
-    if (pId.includes('game') || pId.includes('js')) {
-      return (
-        <div className="terminal-content">
-          <div className="code-line">
-            <span className="line-num">1</span>
-            <span className="code-kw">const</span> wordlist = [<span className="code-str">"apple"</span>, <span className="code-str">"grape"</span>, <span className="code-str">"mango"</span>, <span className="code-str">"lemon"</span>];
-          </div>
-          <div className="code-line">
-            <span className="line-num">2</span>
-            <span className="code-kw">let</span> target = wordlist[Math.<span className="code-func">floor</span>(Math.<span className="code-func">random</span>() * wordlist.length)];
-          </div>
-          <div className="code-line">
-            <span className="line-num">3</span>
-            <span className="code-kw">function</span> <span className="code-func">checkLetter</span>(char) {'{'}
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">4</span>
-            <span className="code-kw">if</span> (target.<span className="code-func">includes</span>(char)) {'{'}
-          </div>
-          <div className="code-line indent-2">
-            <span className="line-num">5</span>
-            <span className="code-func">revealMatchingSlots</span>(char);
-          </div>
-          <div className="code-line indent-1">
-            <span className="line-num">6</span>
-            {'}'} <span className="code-kw">else</span> {'{'} <span className="code-func">deductHeartCounter</span>(); {'}'}
-          </div>
-          <div className="code-line">
-            <span className="line-num">7</span>
-            {'}'}
-          </div>
-          <div className="code-line">
-            <span className="line-num">8</span>
-            window.<span className="code-func">addEventListener</span>(<span className="code-str">'keydown'</span>, (e) =&gt; <span className="code-func">checkLetter</span>(e.key));
-          </div>
-        </div>
-      );
-    }
-
-    if (pId.includes('neetcode') || pId.includes('algo')) {
-      return (
-        <div className="terminal-content">
-          <div className="code-line">
-            <span className="line-num">1</span>
             <span className="code-kw">#include</span> <span className="code-str">&lt;vector&gt;</span>
           </div>
           <div className="code-line">
-            <span className="line-num">2</span>
-            <span className="code-kw">#include</span> <span className="code-str">&lt;unordered_map&gt;</span>
-          </div>
-          <div className="code-line">
             <span className="line-num">3</span>
-            <span className="code-kw">class</span> <span className="code-ident">Solution</span> {'{'}
+            <span className="code-comment">// GitHub Repo: {repoIdentifier}</span>
           </div>
           <div className="code-line">
             <span className="line-num">4</span>
-            <span className="code-kw">public:</span>
+            <span className="code-kw">namespace</span> <span className="code-ident">{nsName}</span> {'{'}
           </div>
           <div className="code-line indent-1">
             <span className="line-num">5</span>
-            vector&lt;<span className="code-ident">int</span>&gt; <span className="code-func">twoSum</span>(vector&lt;<span className="code-ident">int</span>&gt;&amp; nums, <span className="code-ident">int</span> target) {'{'}
+            <span className="code-kw">struct</span> <span className="code-ident">RepositoryContext</span> {'{'}
           </div>
           <div className="code-line indent-2">
             <span className="line-num">6</span>
-            unordered_map&lt;<span className="code-ident">int</span>, <span className="code-ident">int</span>&gt; seen;
+            <span className="code-ident">int</span> stars = <span className="code-num">{project.stars ?? 0}</span>;
           </div>
           <div className="code-line indent-2">
             <span className="line-num">7</span>
-            <span className="code-comment">// Asymptotic: O(n) Time Complexity</span>
+            <span className="code-ident">int</span> forks = <span className="code-num">{project.forks ?? 0}</span>;
           </div>
           <div className="code-line indent-2">
             <span className="line-num">8</span>
-            <span className="code-kw">return</span> {'{}'};
+            <span className="code-kw">const char</span>* branch = <span className="code-str">"{project.defaultBranch || 'main'}"</span>;
           </div>
           <div className="code-line indent-1">
             <span className="line-num">9</span>
-            {'}'}
+            {'};'}
           </div>
           <div className="code-line">
             <span className="line-num">10</span>
-            {'};'}
+            {'}'}
           </div>
         </div>
       );
     }
 
-    // Default snippet for any dynamic repo
+    if (lang.includes('python')) {
+      return (
+        <div className="terminal-content">
+          <div className="code-line">
+            <span className="line-num">1</span>
+            <span className="code-kw">from</span> dataclasses <span className="code-kw">import</span> dataclass
+          </div>
+          <div className="code-line">
+            <span className="line-num">2</span>
+            <span className="code-comment"># GitHub Repo: {repoIdentifier}</span>
+          </div>
+          <div className="code-line">
+            <span className="line-num">3</span>
+            @dataclass
+          </div>
+          <div className="code-line">
+            <span className="line-num">4</span>
+            <span className="code-kw">class</span> <span className="code-ident">{compName}</span>:
+          </div>
+          <div className="code-line indent-1">
+            <span className="line-num">5</span>
+            branch: <span className="code-ident">str</span> = <span className="code-str">"{project.defaultBranch || 'main'}"</span>
+          </div>
+          <div className="code-line indent-1">
+            <span className="line-num">6</span>
+            stars: <span className="code-ident">int</span> = <span className="code-num">{project.stars ?? 0}</span>
+          </div>
+          <div className="code-line indent-1">
+            <span className="line-num">7</span>
+            stack: <span className="code-ident">list</span> = [{techList}]
+          </div>
+        </div>
+      );
+    }
+
+    // Default for JavaScript / TypeScript / React / Web architectures
+    const isReact = project.technologies.some((t) => t.toLowerCase().includes('react')) || lang.includes('typescript') || lang.includes('javascript');
     return (
       <div className="terminal-content">
         <div className="code-line">
           <span className="line-num">1</span>
-          <span className="code-kw">export const</span> <span className="code-func">{project.id.replace(/-/g, '_')}</span> = () =&gt; {'{'}
+          <span className="code-kw">import</span> {'{'} <span className="code-ident">useMemo</span>, <span className="code-ident">useState</span> {'}'} <span className="code-kw">from</span> <span className="code-str">'{isReact ? 'react' : './core'}'</span>;
         </div>
-        <div className="code-line indent-1">
+        <div className="code-line">
           <span className="line-num">2</span>
-          <span className="code-kw">const</span> repo = <span className="code-str">"moaazelshazly/{project.id}"</span>;
+          <span className="code-comment">// GitHub Repo: {repoIdentifier} · branch: {project.defaultBranch || 'main'}</span>
         </div>
-        <div className="code-line indent-1">
+        <div className="code-line">
           <span className="line-num">3</span>
-          <span className="code-kw">const</span> branch = <span className="code-str">"{project.defaultBranch || 'main'}"</span>;
+          <span className="code-kw">export const</span> <span className="code-func">{compName}</span> = () =&gt; {'{'}
         </div>
         <div className="code-line indent-1">
           <span className="line-num">4</span>
-          <span className="code-kw">return</span> (
+          <span className="code-kw">const</span> [stars] = <span className="code-func">useState</span>(<span className="code-num">{project.stars ?? 0}</span>);
         </div>
-        <div className="code-line indent-2">
+        <div className="code-line indent-1">
           <span className="line-num">5</span>
-          &lt;<span className="code-tag">RepositoryModule</span> <span className="code-attr">lang</span>=<span className="code-str">"{project.language}"</span> /&gt;
+          <span className="code-kw">const</span> stack = [{techList}];
         </div>
         <div className="code-line indent-1">
           <span className="line-num">6</span>
+          <span className="code-kw">return</span> (
+        </div>
+        <div className="code-line indent-2">
+          <span className="line-num">7</span>
+          &lt;<span className="code-tag">{primaryTech.replace(/[^a-zA-Z0-9]/g, '') || 'Module'}View</span> <span className="code-attr">branch</span>=<span className="code-str">"{project.defaultBranch || 'main'}"</span> <span className="code-attr">stars</span>={'{stars}'} /&gt;
+        </div>
+        <div className="code-line indent-1">
+          <span className="line-num">8</span>
           );
         </div>
         <div className="code-line">
-          <span className="line-num">7</span>
+          <span className="line-num">9</span>
           {'}'};
         </div>
       </div>

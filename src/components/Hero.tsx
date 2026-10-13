@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { ArrowRightIcon, MailIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon } from './Icons';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
 import { InteractiveHeroCard } from './InteractiveHeroCard';
 
 interface HeroProps {
   personal?: typeof PORTFOLIO_DATA.personal;
+  projects?: Project[];
 }
 
-export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }) => {
+export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal, projects }) => {
   return (
     <section id="hero" className="hero-section">
       {/* Ambient background glow (restrained, Linear-style) */}
@@ -145,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal }
         {/* Memorable Visual Element: Interactive Engineering Console */}
         <div className="hero-visual-wrapper">
           <div className="visual-container">
-            <InteractiveHeroCard />
+            <InteractiveHeroCard projects={projects} />
           </div>
         </div>
       </div>

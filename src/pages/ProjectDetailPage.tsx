@@ -22,10 +22,13 @@ export async function projectDetailLoader({ params }: LoaderFunctionArgs) {
   const result = await hydrationController.coordinateInitialLoad(dataPromise, fallbackData);
   const projects = result?.projects || PORTFOLIO_DATA.projects;
 
+  const normalizedTarget = (projectId || '').toLowerCase().replace(/[-_]/g, '');
   const project = projects.find(
     (p) =>
       p.id.toLowerCase() === projectId?.toLowerCase() ||
-      p.id.toLowerCase().replace(/[-_]/g, '') === projectId?.toLowerCase().replace(/[-_]/g, '')
+      p.id.toLowerCase().replace(/[-_]/g, '') === normalizedTarget ||
+      p.name.toLowerCase().replace(/[-_]/g, '').includes(normalizedTarget) ||
+      (normalizedTarget === 'mineproject' && p.id.includes('depi'))
   );
 
   if (!project) {

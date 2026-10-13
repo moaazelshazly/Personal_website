@@ -8,9 +8,14 @@ import {
   GithubIcon,
   ExternalLinkIcon
 } from './Icons';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
+import { getLanguageColor } from '../TS/Fetcg';
 
-export const InteractiveHeroCard: React.FC = () => {
+interface InteractiveHeroCardProps {
+  projects?: Project[];
+}
+
+export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projects = PORTFOLIO_DATA.projects }) => {
   const [activeTab, setActiveTab] = useState<'metrics' | 'tokens' | 'spec' | 'github'>('metrics');
   const [accentColor, setAccentColor] = useState<'indigo' | 'emerald' | 'amber'>('indigo');
   const [specState, setSpecState] = useState({
@@ -122,7 +127,7 @@ export const InteractiveHeroCard: React.FC = () => {
                 <span className="metric-label">GitHub Telemetry</span>
                 <span className="metric-tag tag-indigo">REST API v3</span>
               </div>
-              <div className="metric-value">{PORTFOLIO_DATA.personal.publicReposCount || PORTFOLIO_DATA.projects.length}<span className="metric-unit">Live Repos</span></div>
+              <div className="metric-value">{projects.length || PORTFOLIO_DATA.personal.publicReposCount}<span className="metric-unit">Live Repos</span></div>
               <div className="metric-desc">Dynamic sync with GitHub Personal Access Token.</div>
             </div>
           </div>
@@ -134,7 +139,7 @@ export const InteractiveHeroCard: React.FC = () => {
               <div className="profile-bar-left">
                 <span className="profile-dot-live" />
                 <span className="profile-handle">github.com/moaazelshazly</span>
-                <span className="profile-badge-pill">{PORTFOLIO_DATA.personal.publicReposCount || PORTFOLIO_DATA.projects.length} Public Repos</span>
+                <span className="profile-badge-pill">{projects.length || PORTFOLIO_DATA.personal.publicReposCount} Public Repos</span>
               </div>
               <a
                 href="https://github.com/moaazelshazly"
@@ -148,37 +153,42 @@ export const InteractiveHeroCard: React.FC = () => {
             </div>
 
             <div className="github-repos-mini-grid">
-              <div className="mini-repo-card">
-                <div className="mini-repo-top">
-                  <span className="mini-repo-name">Personal_website</span>
-                  <span className="mini-repo-lang lang-ts">TypeScript</span>
-                </div>
-                <p className="mini-repo-desc">Modern engineering portfolio with React 19 + Vite</p>
-              </div>
-
-              <div className="mini-repo-card">
-                <div className="mini-repo-top">
-                  <span className="mini-repo-name">TypingApp_React</span>
-                  <span className="mini-repo-lang lang-js">JavaScript</span>
-                </div>
-                <p className="mini-repo-desc">Real-time typing speed benchmark &amp; WPM calculator</p>
-              </div>
-
-              <div className="mini-repo-card">
-                <div className="mini-repo-top">
-                  <span className="mini-repo-name">JsGame</span>
-                  <span className="mini-repo-lang lang-js">JavaScript</span>
-                </div>
-                <p className="mini-repo-desc">Word-guessing browser game with pure DOM &amp; animations</p>
-              </div>
-
-              <div className="mini-repo-card">
-                <div className="mini-repo-top">
-                  <span className="mini-repo-name">neetcode-submissions</span>
-                  <span className="mini-repo-lang lang-cpp">C++</span>
-                </div>
-                <p className="mini-repo-desc">Data structures &amp; algorithmic problem solutions</p>
-              </div>
+              {projects.slice(0, 4).map((p) => {
+                const langColor = getLanguageColor(p.language);
+                const repoName = p.repoFullName ? p.repoFullName.split('/')[1] : p.name;
+                return (
+                  <a
+                    key={p.id}
+                    href={p.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mini-repo-card"
+                    title={`View ${p.name} on GitHub`}
+                  >
+                    <div className="mini-repo-top">
+                      <span className="mini-repo-name">{repoName}</span>
+                      {p.language && (
+                        <span
+                          className="mini-repo-lang"
+                          style={{
+                            color: langColor,
+                            borderColor: `${langColor}44`,
+                            backgroundColor: `${langColor}14`,
+                          }}
+                        >
+                          {p.language}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mini-repo-desc">{p.tagline || p.description}</p>
+                    <div className="mini-repo-stats-row">
+                      <span className="mini-stat-item">★ {p.stars ?? 0}</span>
+                      <span className="mini-stat-item">⑂ {p.forks ?? 0}</span>
+                      <span className="mini-stat-branch">{p.defaultBranch || 'main'}</span>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
+import { fetchPortfolioProjects } from '../TS/Fetcg';
 import { useTheme } from '../context';
 import {
   CommandIcon,
@@ -32,6 +33,7 @@ interface CommandItem {
 }
 
 export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => {
+  const [liveProjects, setLiveProjects] = useState<Project[]>(PORTFOLIO_DATA.projects);
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -40,6 +42,10 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
   const isKeyboardNavRef = useRef(false);
   const navigate = useNavigate();
   const { theme, themeMode, toggleTheme, setTheme, setThemeMode } = useTheme();
+
+  useEffect(() => {
+    fetchPortfolioProjects().then(setLiveProjects).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -97,7 +103,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       id: 'nav-projects',
       category: 'Navigation',
       title: 'Go to Projects',
-      subtitle: `View ${PORTFOLIO_DATA.projects.length} production-grade engineering projects`,
+      subtitle: `View ${liveProjects.length} production-grade engineering projects`,
       keywords: ['work', 'code', 'portfolio', 'apps', 'repos'],
       icon: <ArrowRightIcon size={14} />,
       action: () => navigateTo('/projects')
@@ -135,7 +141,7 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({ isOpen, onClose }) => 
       action: () => navigateTo('/contact')
     },
     // Case Studies
-    ...PORTFOLIO_DATA.projects.map((project) => ({
+    ...liveProjects.map((project) => ({
       id: `case-${project.id}`,
       category: 'Case Studies' as const,
       title: `Case Study: ${project.name}`,
