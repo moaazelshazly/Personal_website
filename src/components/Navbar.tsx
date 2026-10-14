@@ -21,6 +21,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 860 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { label: 'Overview', to: '/' },
     { label: 'Projects', to: '/projects' },
@@ -136,47 +156,59 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommand }) => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Backdrop and Container */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer">
-          <nav className="mobile-nav">
-            <ul>
-              {navLinks.map((link) => (
-                <li key={link.to}>
-                  <NavLink
-                    to={link.to}
-                    end={link.to === '/'}
-                    className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-            <div className="mobile-drawer-footer">
-              <div className="mobile-theme-row">
-                <span className="mobile-theme-label">Theme</span>
-                <ThemeToggle variant="segmented" />
+        <>
+          <div
+            className="mobile-drawer-backdrop"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation Menu"
+          >
+            <nav className="mobile-nav">
+              <ul>
+                {navLinks.map((link) => (
+                  <li key={link.to}>
+                    <NavLink
+                      to={link.to}
+                      end={link.to === '/'}
+                      className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+              <div className="mobile-drawer-footer">
+                <div className="mobile-theme-row">
+                  <span className="mobile-theme-label">Theme</span>
+                  <ThemeToggle variant="segmented" />
+                </div>
+                <div className="availability-badge mobile-badge">
+                  <span className="status-dot-pulse" />
+                  <span className="status-label">{PORTFOLIO_DATA.personal.statusBadge}</span>
+                </div>
+                <div className="mobile-social-links">
+                  <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="mobile-social-pill">
+                    <GithubIcon size={16} /> GitHub
+                  </a>
+                  <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="mobile-social-pill">
+                    <LinkedinIcon size={16} /> LinkedIn
+                  </a>
+                  <a href={PORTFOLIO_DATA.personal.resumeUrl} target="_blank" rel="noreferrer" className="mobile-social-pill">
+                    <FileTextIcon size={16} /> See Resume
+                  </a>
+                </div>
               </div>
-              <div className="availability-badge mobile-badge">
-                <span className="status-dot-pulse" />
-                <span className="status-label">{PORTFOLIO_DATA.personal.statusBadge}</span>
-              </div>
-              <div className="mobile-social-links">
-                <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="mobile-social-pill">
-                  <GithubIcon size={16} /> GitHub
-                </a>
-                <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="mobile-social-pill">
-                  <LinkedinIcon size={16} /> LinkedIn
-                </a>
-                <a href={PORTFOLIO_DATA.personal.resumeUrl} target="_blank" rel="noreferrer" className="mobile-social-pill">
-                  <FileTextIcon size={16} /> See Resume
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
+            </nav>
+          </div>
+        </>
       )}
     </header>
   );

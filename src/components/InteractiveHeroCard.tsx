@@ -54,7 +54,8 @@ export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projec
             onClick={() => setActiveTab('metrics')}
           >
             <CpuIcon size={13} />
-            <span>Architecture &amp; Metrics</span>
+            <span className="tab-label-full">Architecture &amp; Metrics</span>
+            <span className="tab-label-short">Metrics</span>
           </button>
           <button
             role="tab"
@@ -63,7 +64,8 @@ export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projec
             onClick={() => setActiveTab('github')}
           >
             <GithubIcon size={13} />
-            <span>GitHub Live (@moaazelshazly)</span>
+            <span className="tab-label-full">GitHub Live (@moaazelshazly)</span>
+            <span className="tab-label-short">GitHub</span>
           </button>
           <button
             role="tab"
@@ -72,7 +74,8 @@ export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projec
             onClick={() => setActiveTab('tokens')}
           >
             <LayersIcon size={13} />
-            <span>Design Tokens</span>
+            <span className="tab-label-full">Design Tokens</span>
+            <span className="tab-label-short">Tokens</span>
           </button>
           <button
             role="tab"
@@ -81,7 +84,8 @@ export const InteractiveHeroCard: React.FC<InteractiveHeroCardProps> = ({ projec
             onClick={() => setActiveTab('spec')}
           >
             <TerminalIcon size={13} />
-            <span>Component Spec</span>
+            <span className="tab-label-full">Component Spec</span>
+            <span className="tab-label-short">Spec</span>
           </button>
         </div>
 
