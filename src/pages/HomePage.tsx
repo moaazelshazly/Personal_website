@@ -87,7 +87,7 @@ export const HomePage: React.FC = () => {
       {/* Routed Gateway Navigation Section */}
       <section className="section-padding home-gateway-section">
         <div className="section-container">
-          <div className="section-header">
+          <div className="section-header reveal-on-scroll">
             <div className="section-tag">
               <span className="tag-mono">SYSTEM DIRECTORY</span>
             </div>
@@ -97,8 +97,8 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          {/* 4 Gateway Cards */}
-          <div className="home-gateway-grid">
+          {/* 4 Gateway Cards with cascading stagger scroll reveal */}
+          <div className="home-gateway-grid reveal-stagger">
             {exploreCards.map((card) => (
               <Link key={card.to} to={card.to} className="gateway-card">
                 <div className="gateway-card-top">
@@ -118,9 +118,9 @@ export const HomePage: React.FC = () => {
             ))}
           </div>
 
-          {/* Featured Project Teaser Banner */}
+          {/* Featured Project Teaser Banner with scale reveal */}
           {featuredProject && (
-            <div className="home-featured-banner">
+            <div className="home-featured-banner reveal-on-scroll reveal-scale">
               <div className="featured-banner-meta">
                 <span className="featured-tag">FLAGSHIP CASE STUDY</span>
                 <h3 className="featured-title">{featuredProject.name}</h3>
@@ -145,7 +145,7 @@ export const HomePage: React.FC = () => {
           )}
 
           {/* Quick Contact Banner */}
-          <div className="home-contact-banner">
+          <div className="home-contact-banner reveal-on-scroll">
             <div className="contact-banner-content">
               <h3 className="contact-banner-title">Ready to discuss an engineering role or contract?</h3>
               <p className="contact-banner-desc">

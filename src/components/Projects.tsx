@@ -266,7 +266,7 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
     <section id="projects" className="section-padding projects-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header">
+        <div className="section-header reveal-on-scroll">
           <div className="section-tag">
             <span className="tag-mono">03 // SELECTED WORK</span>
           </div>
@@ -277,7 +277,7 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
         </div>
 
         {/* GitHub Live Sync Status Banner */}
-        <div className="github-sync-banner">
+        <div className="github-sync-banner reveal-on-scroll">
           <div className="sync-banner-left">
             <span className="sync-pulse-dot" />
             <span className="sync-text">
@@ -443,7 +443,11 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
             const langColor = getLanguageColor(project.language);
 
             return (
-              <article key={project.id} className="project-feature-row">
+              <article
+                key={project.id}
+                className="project-feature-row reveal-on-scroll"
+                style={{ '--reveal-index': index } as React.CSSProperties}
+              >
                 <div className="project-main-meta">
                   {/* Category, Status, and GitHub Live Stats */}
                   <div className="project-badge-row">
@@ -674,9 +678,9 @@ export const Projects: React.FC<ProjectsProps> = ({ projects: initialProjects = 
         </div>
         )}
 
-        {/* View Mode: Compact Grid Matrix */}
+        {/* View Mode: Compact Grid Matrix with Stagger Entrance */}
         {viewMode === 'matrix' && filteredProjects.length > 0 && (
-          <div className="projects-matrix-grid">
+          <div className="projects-matrix-grid reveal-stagger">
             {filteredProjects.map((project) => {
               const langColor = getLanguageColor(project.language);
               return (

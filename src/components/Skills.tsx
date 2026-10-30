@@ -29,7 +29,7 @@ export const Skills: React.FC<SkillsProps> = ({ skills = PORTFOLIO_DATA.skills }
     <section id="skills" className="section-padding skills-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header">
+        <div className="section-header reveal-on-scroll">
           <div className="section-tag">
             <span className="tag-mono">02 // CAPABILITIES</span>
           </div>
@@ -40,7 +40,7 @@ export const Skills: React.FC<SkillsProps> = ({ skills = PORTFOLIO_DATA.skills }
         </div>
 
         {/* Category Filters */}
-        <div className="skills-filter-bar">
+        <div className="skills-filter-bar reveal-on-scroll">
           <div className="filter-pill-group" role="tablist" aria-label="Skills Filter">
             {categories.map((cat) => (
               <button
@@ -59,7 +59,7 @@ export const Skills: React.FC<SkillsProps> = ({ skills = PORTFOLIO_DATA.skills }
         {/* Groups Grid */}
         <div className="skills-groups-wrapper">
           {filteredCategories.map((group) => (
-            <div key={group.title} className="skill-group-container">
+            <div key={group.title} className="skill-group-container reveal-on-scroll">
               {/* Group Header */}
               <div className="skill-group-header">
                 <div className="group-title-cluster">
@@ -74,8 +74,8 @@ export const Skills: React.FC<SkillsProps> = ({ skills = PORTFOLIO_DATA.skills }
                 <span className="group-count-badge">{group.skills.length} competencies</span>
               </div>
 
-              {/* Skills Items Grid */}
-              <div className="skills-item-grid">
+              {/* Skills Items Grid with Stagger */}
+              <div className="skills-item-grid reveal-stagger">
                 {group.skills.map((skill) => (
                   <div
                     key={skill.name}

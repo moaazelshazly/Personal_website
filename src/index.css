@@ -5,6 +5,7 @@
 @import './styles/tokens.css';
 @import './styles/portfolio.css';
 @import './styles/hydrateFallback.css';
+@import './styles/scrollAnimations.css';
 
 :root {
   color-scheme: dark;

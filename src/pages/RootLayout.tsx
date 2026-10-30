@@ -3,9 +3,13 @@ import { Outlet, ScrollRestoration } from 'react-router';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { CommandMenu } from '../components/CommandMenu';
+import { ScrollProgressBar } from '../components/ScrollProgressBar';
+import { ScrollToTop } from '../components/ScrollToTop';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export const RootLayout: React.FC = () => {
   const [isCommandOpen, setIsCommandOpen] = useState(false);
+  useScrollReveal();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -23,6 +27,9 @@ export const RootLayout: React.FC = () => {
     <div className="portfolio-app-root">
       <ScrollRestoration />
 
+      {/* Global Glowing Scroll Progress Bar */}
+      <ScrollProgressBar />
+
       {/* Accessible Skip Link for Keyboard Users */}
       <a href="#main-content" className="skip-to-content-link">
         Skip to main content
@@ -38,6 +45,9 @@ export const RootLayout: React.FC = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Orbital Back-To-Top Circular Scroll Meter */}
+      <ScrollToTop />
 
       {/* Interactive Command Palette */}
       {isCommandOpen && (

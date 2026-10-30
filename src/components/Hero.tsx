@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { ArrowRightIcon, MailIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon } from './Icons';
+import { ArrowRightIcon, MailIcon, GithubIcon, LinkedinIcon, ArrowUpRightIcon, FileTextIcon, ChevronDownIcon } from './Icons';
 import { PORTFOLIO_DATA, type Project } from '../data/portfolioData';
 import { InteractiveHeroCard } from './InteractiveHeroCard';
 
@@ -10,11 +10,47 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal, projects }) => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY < 900) {
+            setScrollY(window.scrollY);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const parallaxOffset = scrollY * 0.18;
+  const parallaxFade = Math.max(0, 1 - scrollY / 700);
+
   return (
     <section id="hero" className="hero-section">
       {/* Ambient background glow (restrained, Linear-style) */}
-      <div className="hero-ambient-glow" aria-hidden="true" />
-      <div className="hero-grid-pattern" aria-hidden="true" />
+      <div
+        className="hero-ambient-glow"
+        aria-hidden="true"
+        style={{
+          transform: `translate3d(0, ${parallaxOffset}px, 0)`,
+          opacity: parallaxFade,
+        }}
+      />
+      <div
+        className="hero-grid-pattern"
+        aria-hidden="true"
+        style={{
+          transform: `translate3d(0, ${parallaxOffset * 0.5}px, 0)`,
+        }}
+      />
 
       <div className="section-container">
         {/* Status Callout & GitHub Profile Badge */}
@@ -148,6 +184,27 @@ export const Hero: React.FC<HeroProps> = ({ personal = PORTFOLIO_DATA.personal, 
           <div className="visual-container">
             <InteractiveHeroCard projects={projects} />
           </div>
+        </div>
+
+        {/* Interactive Scroll-Down Prompt */}
+        <div className="hero-scroll-prompt-wrapper">
+          <button
+            type="button"
+            className="hero-scroll-prompt"
+            onClick={() => {
+              const target = document.querySelector('.home-gateway-section') || document.querySelector('main > :nth-child(2)');
+              target?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            aria-label="Scroll down to explore portfolio"
+          >
+            <div className="scroll-prompt-mouse" aria-hidden="true">
+              <div className="scroll-prompt-wheel" />
+            </div>
+            <div className="scroll-prompt-meta">
+              <span>Scroll to explore</span>
+              <ChevronDownIcon size={12} className="scroll-prompt-arrow" />
+            </div>
+          </button>
         </div>
       </div>
     </section>

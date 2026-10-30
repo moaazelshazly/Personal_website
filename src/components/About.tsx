@@ -15,7 +15,7 @@ export const About: React.FC<AboutProps> = ({
     <section id="about" className="section-padding about-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header">
+        <div className="section-header reveal-on-scroll">
           <div className="section-tag">
             <span className="tag-mono">04 // BACKGROUND</span>
           </div>
@@ -27,8 +27,8 @@ export const About: React.FC<AboutProps> = ({
 
         {/* Content Layout */}
         <div className="about-grid">
-          {/* Left Column: Narrative */}
-          <div className="about-text-column">
+          {/* Left Column: Narrative with Slide Left Entrance */}
+          <div className="about-text-column reveal-on-scroll reveal-slide-left">
             <h3 className="about-heading">{about.heading}</h3>
             
             <div className="about-paragraphs">
@@ -59,10 +59,10 @@ export const About: React.FC<AboutProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Focus Pillars & Quick Status */}
+          {/* Right Column: Focus Pillars & Quick Status with Scale & Stagger */}
           <div className="about-sidebar-column">
             {/* Status Card with GitHub Profile Info */}
-            <div className="about-status-card">
+            <div className="about-status-card reveal-on-scroll reveal-scale">
               <div className="status-card-header">
                 <span className="card-badge">Profile Snapshot</span>
                 <span className="card-status-dot" />
@@ -117,8 +117,8 @@ export const About: React.FC<AboutProps> = ({
               </div>
             </div>
 
-            {/* Focus Pillars */}
-            <div className="focus-pillars">
+            {/* Focus Pillars with cascading reveal */}
+            <div className="focus-pillars reveal-stagger">
               {about.focusAreas.map((area, idx) => (
                 <div key={idx} className="focus-pillar-card">
                   <div className="pillar-icon-box">

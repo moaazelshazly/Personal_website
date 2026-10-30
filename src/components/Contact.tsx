@@ -39,7 +39,7 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
     <section id="contact" className="section-padding contact-section">
       <div className="section-container">
         {/* Section Header */}
-        <div className="section-header">
+        <div className="section-header reveal-on-scroll">
           <div className="section-tag">
             <span className="tag-mono">05 // INITIATE CONTACT</span>
           </div>
@@ -51,8 +51,8 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
 
         {/* Contact Layout */}
         <div className="contact-grid">
-          {/* Left Column: Direct Communication Card */}
-          <div className="contact-info-panel">
+          {/* Left Column: Direct Communication Card with Slide Left Reveal */}
+          <div className="contact-info-panel reveal-on-scroll reveal-slide-left">
             <div className="info-card">
               <span className="info-card-badge">Direct Communication</span>
               <h3 className="info-card-title">Available for Opportunities</h3>
@@ -142,8 +142,8 @@ export const Contact: React.FC<ContactProps> = ({ personal = PORTFOLIO_DATA.pers
             </div>
           </div>
 
-          {/* Right Column: React Router Data Mode Form (useFetcher) */}
-          <div className="contact-form-panel">
+          {/* Right Column: React Router Data Mode Form with Slide Right Reveal */}
+          <div className="contact-form-panel reveal-on-scroll reveal-slide-right">
             <fetcher.Form ref={formRef} method="post" action="/contact" className="contact-form">
               <div className="form-header">
                 <h3 className="form-title">Send a Direct Message</h3>

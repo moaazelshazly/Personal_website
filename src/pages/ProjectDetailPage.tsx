@@ -70,7 +70,7 @@ export const ProjectDetailPage: React.FC = () => {
         </div>
 
         {/* Project Header */}
-        <header className="detail-header">
+        <header className="detail-header reveal-on-scroll">
           <div className="detail-badge-row">
             <span className="category-pill">{project.category}</span>
             <span className="status-pill-subtle">
@@ -122,13 +122,13 @@ export const ProjectDetailPage: React.FC = () => {
           {/* Main Case Study */}
           <div className="detail-main-column">
             {/* Overview Section */}
-            <section className="detail-section-block">
+            <section className="detail-section-block reveal-on-scroll">
               <h2 className="detail-section-heading">System Overview</h2>
               <p className="detail-prose">{project.description}</p>
             </section>
 
             {/* Architectural Challenge & Engineering Solution */}
-            <section className="detail-section-block">
+            <section className="detail-section-block reveal-on-scroll">
               <h2 className="detail-section-heading">Architectural Challenge &amp; Solution</h2>
               <div className="detail-challenge-card">
                 <div className="challenge-top">
@@ -139,9 +139,9 @@ export const ProjectDetailPage: React.FC = () => {
             </section>
 
             {/* Technical Highlights */}
-            <section className="detail-section-block">
+            <section className="detail-section-block reveal-on-scroll">
               <h2 className="detail-section-heading">Key Technical Milestones</h2>
-              <div className="detail-highlights-grid">
+              <div className="detail-highlights-grid reveal-stagger">
                 {project.highlights.map((h, i) => (
                   <div key={i} className="detail-highlight-card">
                     <CheckIcon size={14} className="highlight-check" />
