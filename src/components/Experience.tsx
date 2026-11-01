@@ -10,12 +10,19 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
   const [filter, setFilter] = useState<'all' | 'experience' | 'education'>('all');
   const [timelineProgress, setTimelineProgress] = useState(0);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const [revealedIds, setRevealedIds] = useState<Set<string>>(() => {
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      return new Set(timeline.map((item) => item.id));
+    }
+    return new Set();
+  });
 
   const filteredItems = timeline.filter(item => {
     if (filter === 'all') return true;
     return item.type === filter;
   });
 
+  // Track scroll position to advance the interactive timeline laser
   useEffect(() => {
     let ticking = false;
 
@@ -40,6 +47,61 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [filter]);
+
+  // Observe timeline nodes to mark them revealed as they scroll into view
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+
+    const nodes = el.querySelectorAll<HTMLElement>('.timeline-node');
+    if (nodes.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('data-item-id');
+            if (id) {
+              setRevealedIds((prev) => {
+                if (prev.has(id)) return prev;
+                const next = new Set(prev);
+                next.add(id);
+                return next;
+              });
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px',
+      }
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [filter, filteredItems]);
+
+  // Permanently preserve milestone as revealed once passed by the laser track
+  useEffect(() => {
+    if (timelineProgress > 0) {
+      const newlyPassed: string[] = [];
+      filteredItems.forEach((item, index) => {
+        const threshold = (index + 0.3) / filteredItems.length;
+        if (timelineProgress >= threshold && !revealedIds.has(item.id)) {
+          newlyPassed.push(item.id);
+        }
+      });
+
+      if (newlyPassed.length > 0) {
+        setRevealedIds((prev) => {
+          const next = new Set(prev);
+          newlyPassed.forEach((id) => next.add(id));
+          return next;
+        });
+      }
+    }
+  }, [timelineProgress, filteredItems, revealedIds]);
 
   return (
     <section id="experience" className="section-padding experience-section">
@@ -106,11 +168,14 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
               const isWork = item.type === 'experience';
               const nodeThreshold = (index + 0.3) / filteredItems.length;
               const isPassed = timelineProgress >= nodeThreshold;
+              const isRevealed = revealedIds.has(item.id) || isPassed;
 
               return (
                 <div
                   key={item.id}
-                  className={`timeline-node reveal-on-scroll ${isPassed ? 'in-scroll-focus' : ''}`}
+                  data-item-id={item.id}
+                  data-revealed={isRevealed ? 'true' : undefined}
+                  className={`timeline-node reveal-on-scroll ${isRevealed ? 'is-revealed' : ''} ${isPassed ? 'in-scroll-focus' : ''}`}
                   style={{ '--reveal-index': index } as React.CSSProperties}
                 >
                   {/* Timeline Indicator Dot with Icon */}

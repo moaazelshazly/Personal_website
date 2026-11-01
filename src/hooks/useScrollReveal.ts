@@ -12,16 +12,17 @@ export function useScrollReveal() {
     // Respect user's motion preferences
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const setupObserver = () => {
-      const revealElements = document.querySelectorAll<HTMLElement>(
-        '.reveal-on-scroll, .reveal-stagger, .reveal-slide-left, .reveal-slide-right, .reveal-scale, .reveal-fade'
-      );
+    let mutationObserver: MutationObserver | null = null;
+    let observer: IntersectionObserver | null = null;
 
-      if (revealElements.length === 0) return;
+    const setupObserver = () => {
+      const selector = '.reveal-on-scroll, .reveal-stagger, .reveal-slide-left, .reveal-slide-right, .reveal-scale, .reveal-fade';
+      const revealElements = document.querySelectorAll<HTMLElement>(selector);
 
       if (prefersReducedMotion) {
         revealElements.forEach((el) => {
           el.classList.add('is-revealed');
+          el.setAttribute('data-revealed', 'true');
         });
         return;
       }
@@ -37,13 +38,15 @@ export function useScrollReveal() {
         }
       });
 
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
+              const target = entry.target as HTMLElement;
+              target.classList.add('is-revealed');
+              target.setAttribute('data-revealed', 'true');
               // Unobserve once revealed for zero continuous overhead
-              observer.unobserve(entry.target);
+              observer?.unobserve(target);
             }
           });
         },
@@ -53,20 +56,58 @@ export function useScrollReveal() {
         }
       );
 
-      revealElements.forEach((el) => {
-        if (!el.classList.contains('is-revealed')) {
-          observer.observe(el);
+      const observeElement = (el: HTMLElement) => {
+        if (el.getAttribute('data-revealed') === 'true' || el.classList.contains('is-revealed')) {
+          el.classList.add('is-revealed');
+          el.setAttribute('data-revealed', 'true');
+        } else {
+          observer?.observe(el);
         }
+      };
+
+      revealElements.forEach(observeElement);
+
+      // MutationObserver guarantees:
+      // 1. If React re-renders and wipes 'is-revealed' from a revealed element, it is immediately restored
+      // 2. Newly added elements (e.g. from filter tab switches or dynamic content) are observed
+      mutationObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            const target = mutation.target as HTMLElement;
+            if (
+              target.getAttribute('data-revealed') === 'true' &&
+              !target.classList.contains('is-revealed')
+            ) {
+              target.classList.add('is-revealed');
+            }
+          } else if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach((node) => {
+              if (node instanceof HTMLElement) {
+                if (node.matches(selector)) {
+                  observeElement(node);
+                }
+                node.querySelectorAll<HTMLElement>(selector).forEach(observeElement);
+              }
+            });
+          }
+        });
       });
 
-      return () => {
-        observer.disconnect();
-      };
+      mutationObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class'],
+        subtree: true,
+        childList: true,
+      });
     };
 
     // Small delay to ensure DOM is settled after hydration/routing
     const timer = setTimeout(setupObserver, 60);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      observer?.disconnect();
+      mutationObserver?.disconnect();
+    };
   }, [location.pathname, location.search]);
 }

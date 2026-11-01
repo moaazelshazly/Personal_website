@@ -263,26 +263,37 @@
   will-change: opacity;
 }
 
-/* Active State Triggered by IntersectionObserver */
+/* Active State Triggered by IntersectionObserver or React State */
 .reveal-on-scroll.is-revealed,
+.reveal-on-scroll[data-revealed='true'],
 .reveal-fade-up.is-revealed,
+.reveal-fade-up[data-revealed='true'],
 .scroll-reveal-box.reveal-fade-up.is-revealed,
+.scroll-reveal-box.reveal-fade-up[data-revealed='true'],
 .reveal-slide-left.is-revealed,
+.reveal-slide-left[data-revealed='true'],
 .scroll-reveal-box.reveal-slide-left.is-revealed,
+.scroll-reveal-box.reveal-slide-left[data-revealed='true'],
 .reveal-slide-right.is-revealed,
-.scroll-reveal-box.reveal-slide-right.is-revealed {
+.reveal-slide-right[data-revealed='true'],
+.scroll-reveal-box.reveal-slide-right.is-revealed,
+.scroll-reveal-box.reveal-slide-right[data-revealed='true'] {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
 .reveal-scale.is-revealed,
-.scroll-reveal-box.reveal-scale.is-revealed {
+.reveal-scale[data-revealed='true'],
+.scroll-reveal-box.reveal-scale.is-revealed,
+.scroll-reveal-box.reveal-scale[data-revealed='true'] {
   opacity: 1;
   transform: scale(1);
 }
 
 .reveal-fade.is-revealed,
-.scroll-reveal-box.reveal-fade.is-revealed {
+.reveal-fade[data-revealed='true'],
+.scroll-reveal-box.reveal-fade.is-revealed,
+.scroll-reveal-box.reveal-fade[data-revealed='true'] {
   opacity: 1;
 }
 
@@ -300,7 +311,8 @@
   will-change: opacity, transform;
 }
 
-.reveal-stagger.is-revealed > * {
+.reveal-stagger.is-revealed > *,
+.reveal-stagger[data-revealed='true'] > * {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   transition-delay: calc(var(--reveal-index, 0) * 75ms);
@@ -443,6 +455,11 @@
 }
 
 /* Active Milestone illuminated by Scroll */
+.timeline-node.in-scroll-focus {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 .timeline-node.in-scroll-focus .timeline-dot-wrapper {
   transform: scale(1.15);
   border-color: var(--color-accent, #7170ff);
