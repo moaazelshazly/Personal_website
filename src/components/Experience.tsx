@@ -36,6 +36,21 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
             const scrolledHeight = triggerPoint - rect.top;
             const progress = Math.min(Math.max(scrolledHeight / rect.height, 0), 1);
             setTimelineProgress(progress);
+
+            if (progress > 0) {
+              setRevealedIds((prev) => {
+                let changed = false;
+                const next = new Set(prev);
+                filteredItems.forEach((item, index) => {
+                  const threshold = (index + 0.3) / filteredItems.length;
+                  if (progress >= threshold && !next.has(item.id)) {
+                    next.add(item.id);
+                    changed = true;
+                  }
+                });
+                return changed ? next : prev;
+              });
+            }
           }
           ticking = false;
         });
@@ -46,7 +61,7 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [filter]);
+  }, [filter, filteredItems]);
 
   // Observe timeline nodes to mark them revealed as they scroll into view
   useEffect(() => {
@@ -81,27 +96,6 @@ export const Experience: React.FC<ExperienceProps> = ({ timeline = PORTFOLIO_DAT
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, [filter, filteredItems]);
-
-  // Permanently preserve milestone as revealed once passed by the laser track
-  useEffect(() => {
-    if (timelineProgress > 0) {
-      const newlyPassed: string[] = [];
-      filteredItems.forEach((item, index) => {
-        const threshold = (index + 0.3) / filteredItems.length;
-        if (timelineProgress >= threshold && !revealedIds.has(item.id)) {
-          newlyPassed.push(item.id);
-        }
-      });
-
-      if (newlyPassed.length > 0) {
-        setRevealedIds((prev) => {
-          const next = new Set(prev);
-          newlyPassed.forEach((id) => next.add(id));
-          return next;
-        });
-      }
-    }
-  }, [timelineProgress, filteredItems, revealedIds]);
 
   return (
     <section id="experience" className="section-padding experience-section">
